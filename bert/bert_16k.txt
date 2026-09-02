@@ -1,0 +1,359 @@
+Proceedings of NAACL-HLT 2019, pages 4171–4186
+Minneapolis, Minnesota, June 2 - June 7, 2019.c⃝2019 Association for Computational Linguistics
+4171
+BERT: Pre-training of Deep Bidirectional Transformers for
+Language Understanding
+Jacob Devlin Ming-Wei Chang Kenton Lee Kristina Toutanova
+Google AI Language
+{jacobdevlin,mingweichang,kentonl,kristout}@google.com
+Abstract
+We introduce a new language representa-
+tion model called BERT, which stands for
+Bidirectional Encoder Representations from
+Transformers. Unlike recent language repre-
+sentation models (Peters et al., 2018a; Rad-
+ford et al., 2018), BERT is designed to pre-
+train deep bidirectional representations from
+unlabeled text by jointly conditioning on both
+left and right context in all layers. As a re-
+sult, the pre-trained BERT model can be ﬁne-
+tuned with just one additional output layer
+to create state-of-the-art models for a wide
+range of tasks, such as question answering and
+language inference, without substantial task-
+speciﬁc architecture modiﬁcations.
+BERT is conceptually simple and empirically
+powerful. It obtains new state-of-the-art re-
+sults on eleven natural language processing
+tasks, including pushing the GLUE score to
+80.5% (7.7% point absolute improvement),
+MultiNLI accuracy to 86.7% (4.6% absolute
+improvement), SQuAD v1.1 question answer-
+ing Test F1 to 93.2 (1.5 point absolute im-
+provement) and SQuAD v2.0 Test F1 to 83.1
+(5.1 point absolute improvement).
+1 Introduction
+Language model pre-training has been shown to
+be effective for improving many natural language
+processing tasks (Dai and Le, 2015; Peters et al.,
+2018a; Radford et al., 2018; Howard and Ruder,
+2018). These include sentence-level tasks such as
+natural language inference (Bowman et al., 2015;
+Williams et al., 2018) and paraphrasing (Dolan
+and Brockett, 2005), which aim to predict the re-
+lationships between sentences by analyzing them
+holistically, as well as token-level tasks such as
+named entity recognition and question answering,
+where models are required to produce ﬁne-grained
+output at the token level (Tjong Kim Sang and
+De Meulder, 2003; Rajpurkar et al., 2016).
+There are two existing strategies for apply-
+ing pre-trained language representations to down-
+stream tasks: feature-based and ﬁne-tuning. The
+feature-based approach, such as ELMo (Peters
+et al., 2018a), uses task-speciﬁc architectures that
+include the pre-trained representations as addi-
+tional features. The ﬁne-tuning approach, such as
+the Generative Pre-trained Transformer (OpenAI
+GPT) (Radford et al., 2018), introduces minimal
+task-speciﬁc parameters, and is trained on the
+downstream tasks by simply ﬁne-tuning all pre-
+trained parameters. The two approaches share the
+same objective function during pre-training, where
+they use unidirectional language models to learn
+general language representations.
+We argue that current techniques restrict the
+power of the pre-trained representations, espe-
+cially for the ﬁne-tuning approaches. The ma-
+jor limitation is that standard language models are
+unidirectional, and this limits the choice of archi-
+tectures that can be used during pre-training. For
+example, in OpenAI GPT, the authors use a left-to-
+right architecture, where every token can only at-
+tend to previous tokens in the self-attention layers
+of the Transformer (Vaswani et al., 2017). Such re-
+strictions are sub-optimal for sentence-level tasks,
+and could be very harmful when applying ﬁne-
+tuning based approaches to token-level tasks such
+as question answering, where it is crucial to incor-
+porate context from both directions.
+In this paper, we improve the ﬁne-tuning based
+approaches by proposing BERT: Bidirectional
+Encoder Representations from Transformers.
+BERT alleviates the previously mentioned unidi-
+rectionality constraint by using a “masked lan-
+guage model” (MLM) pre-training objective, in-
+spired by the Cloze task (Taylor, 1953). The
+masked language model randomly masks some of
+the tokens from the input, and the objective is to
+predict the original vocabulary id of the masked
+4172
+word based only on its context. Unlike left-to-
+right language model pre-training, the MLM ob-
+jective enables the representation to fuse the left
+and the right context, which allows us to pre-
+train a deep bidirectional Transformer. In addi-
+tion to the masked language model, we also use
+a “next sentence prediction” task that jointly pre-
+trains text-pair representations. The contributions
+of our paper are as follows:
+• We demonstrate the importance of bidirectional
+pre-training for language representations. Un-
+like Radford et al. (2018), which uses unidirec-
+tional language models for pre-training, BERT
+uses masked language models to enable pre-
+trained deep bidirectional representations. This
+is also in contrast to Peters et al. (2018a), which
+uses a shallow concatenation of independently
+trained left-to-right and right-to-left LMs.
+• We show that pre-trained representations reduce
+the need for many heavily-engineered task-
+speciﬁc architectures. BERT is the ﬁrst ﬁne-
+tuning based representation model that achieves
+state-of-the-art performance on a large suite
+of sentence-level and token-level tasks, outper-
+forming many task-speciﬁc architectures.
+• BERT advances the state of the art for eleven
+NLP tasks. The code and pre-trained mod-
+els are available at https://github.com/
+google-research/bert.
+2 Related Work
+There is a long history of pre-training general lan-
+guage representations, and we brieﬂy review the
+most widely-used approaches in this section.
+2.1 Unsupervised Feature-based Approaches
+Learning widely applicable representations of
+words has been an active area of research for
+decades, including non-neural (Brown et al., 1992;
+Ando and Zhang, 2005; Blitzer et al., 2006) and
+neural (Mikolov et al., 2013; Pennington et al.,
+2014) methods. Pre-trained word embeddings
+are an integral part of modern NLP systems, of-
+fering signiﬁcant improvements over embeddings
+learned from scratch (Turian et al., 2010). To pre-
+train word embedding vectors, left-to-right lan-
+guage modeling objectives have been used (Mnih
+and Hinton, 2009), as well as objectives to dis-
+criminate correct from incorrect words in left and
+right context (Mikolov et al., 2013).
+These approaches have been generalized to
+coarser granularities, such as sentence embed-
+dings (Kiros et al., 2015; Logeswaran and Lee,
+2018) or paragraph embeddings (Le and Mikolov,
+2014). To train sentence representations, prior
+work has used objectives to rank candidate next
+sentences (Jernite et al., 2017; Logeswaran and
+Lee, 2018), left-to-right generation of next sen-
+tence words given a representation of the previous
+sentence (Kiros et al., 2015), or denoising auto-
+encoder derived objectives (Hill et al., 2016).
+ELMo and its predecessor (Peters et al., 2017,
+2018a) generalize traditional word embedding re-
+search along a different dimension. They extract
+context-sensitive features from a left-to-right and a
+right-to-left language model. The contextual rep-
+resentation of each token is the concatenation of
+the left-to-right and right-to-left representations.
+When integrating contextual word embeddings
+with existing task-speciﬁc architectures, ELMo
+advances the state of the art for several major NLP
+benchmarks (Peters et al., 2018a) including ques-
+tion answering (Rajpurkar et al., 2016), sentiment
+analysis (Socher et al., 2013), and named entity
+recognition (Tjong Kim Sang and De Meulder,
+2003). Melamud et al. (2016) proposed learning
+contextual representations through a task to pre-
+dict a single word from both left and right context
+using LSTMs. Similar to ELMo, their model is
+feature-based and not deeply bidirectional. Fedus
+et al. (2018) shows that the cloze task can be used
+to improve the robustness of text generation mod-
+els.
+2.2 Unsupervised Fine-tuning Approaches
+As with the feature-based approaches, the ﬁrst
+works in this direction only pre-trained word em-
+bedding parameters from unlabeled text (Col-
+lobert and Weston, 2008).
+More recently, sentence or document encoders
+which produce contextual token representations
+have been pre-trained from unlabeled text and
+ﬁne-tuned for a supervised downstream task (Dai
+and Le, 2015; Howard and Ruder, 2018; Radford
+et al., 2018). The advantage of these approaches
+is that few parameters need to be learned from
+scratch. At least partly due to this advantage,
+OpenAI GPT (Radford et al., 2018) achieved pre-
+viously state-of-the-art results on many sentence-
+level tasks from the GLUE benchmark (Wang
+et al., 2018a). Left-to-right language model-
+4173
+BERT BERT
+E[CLS] E1  E[SEP]... EN E1’ ... EM’
+C
+ T1
+ T[SEP]...
+ TN
+ T1’ ...
+ TM’
+[CLS] Tok 1  [SEP]... Tok N Tok 1 ... TokM
+Question Paragraph
+Start/End Span
+BERT
+E[CLS] E1  E[SEP]... EN E1’ ... EM’
+C
+ T1
+ T[SEP]...
+ TN
+ T1’ ...
+ TM’
+[CLS] Tok 1  [SEP]... Tok N Tok 1 ... TokM
+Masked Sentence A Masked Sentence B
+Pre-training Fine-Tuning
+NSP Mask LM Mask LM
+Unlabeled Sentence A and B Pair 
+SQuAD
+Question Answer Pair
+NERMNLI
+Figure 1: Overall pre-training and ﬁne-tuning procedures for BERT. Apart from output layers, the same architec-
+tures are used in both pre-training and ﬁne-tuning. The same pre-trained model parameters are used to initialize
+models for different down-stream tasks. During ﬁne-tuning, all parameters are ﬁne-tuned. [CLS] is a special
+symbol added in front of every input example, and [SEP] is a special separator token (e.g. separating ques-
+tions/answers).
+ing and auto-encoder objectives have been used
+for pre-training such models (Howard and Ruder,
+2018; Radford et al., 2018; Dai and Le, 2015).
+2.3 Transfer Learning from Supervised Data
+There has also been work showing effective trans-
+fer from supervised tasks with large datasets, such
+as natural language inference (Conneau et al.,
+2017) and machine translation (McCann et al.,
+2017). Computer vision research has also demon-
+strated the importance of transfer learning from
+large pre-trained models, where an effective recipe
+is to ﬁne-tune models pre-trained with Ima-
+geNet (Deng et al., 2009; Yosinski et al., 2014).
+3 BERT
+We introduce BERT and its detailed implementa-
+tion in this section. There are two steps in our
+framework: pre-training and ﬁne-tuning. Dur-
+ing pre-training, the model is trained on unlabeled
+data over different pre-training tasks. For ﬁne-
+tuning, the BERT model is ﬁrst initialized with
+the pre-trained parameters, and all of the param-
+eters are ﬁne-tuned using labeled data from the
+downstream tasks. Each downstream task has sep-
+arate ﬁne-tuned models, even though they are ini-
+tialized with the same pre-trained parameters. The
+question-answering example in Figure 1 will serve
+as a running example for this section.
+A distinctive feature of BERT is its uniﬁed ar-
+chitecture across different tasks. There is mini-
+mal difference between the pre-trained architec-
+ture and the ﬁnal downstream architecture.
+Model Architecture BERT’s model architec-
+ture is a multi-layer bidirectional Transformer en-
+coder based on the original implementation de-
+scribed in Vaswani et al. (2017) and released in
+the tensor2tensor library.1 Because the use
+of Transformers has become common and our im-
+plementation is almost identical to the original,
+we will omit an exhaustive background descrip-
+tion of the model architecture and refer readers to
+Vaswani et al. (2017) as well as excellent guides
+such as “The Annotated Transformer.”2
+In this work, we denote the number of layers
+(i.e., Transformer blocks) as L, the hidden size as
+H, and the number of self-attention heads as A.3
+We primarily report results on two model sizes:
+BERTBASE (L=12, H=768, A=12, Total Param-
+eters=110M) and BERTLARGE (L=24, H=1024,
+A=16, Total Parameters=340M).
+BERTBASE was chosen to have the same model
+size as OpenAI GPT for comparison purposes.
+Critically, however, the BERT Transformer uses
+bidirectional self-attention, while the GPT Trans-
+former uses constrained self-attention where every
+token can only attend to context to its left.4
+1https://github.com/tensorﬂow/tensor2tensor
+2http://nlp.seas.harvard.edu/2018/04/03/attention.html
+3In all cases we set the feed-forward/ﬁlter size to be 4H,
+i.e., 3072 for the H = 768and 4096 for the H = 1024.
+4We note that in the literature the bidirectional Trans-
+4174
+Input/Output Representations To make BERT
+handle a variety of down-stream tasks, our input
+representation is able to unambiguously represent
+both a single sentence and a pair of sentences
+(e.g., ⟨Question, Answer ⟩) in one token sequence.
+Throughout this work, a “sentence” can be an arbi-
+trary span of contiguous text, rather than an actual
+linguistic sentence. A “sequence” refers to the in-
+put token sequence to BERT, which may be a sin-
+gle sentence or two sentences packed together.
+We use WordPiece embeddings (Wu et al.,
+2016) with a 30,000 token vocabulary. The ﬁrst
+token of every sequence is always a special clas-
+siﬁcation token ( [CLS]). The ﬁnal hidden state
+corresponding to this token is used as the ag-
+gregate sequence representation for classiﬁcation
+tasks. Sentence pairs are packed together into a
+single sequence. We differentiate the sentences in
+two ways. First, we separate them with a special
+token ([SEP]). Second, we add a learned embed-
+ding to every token indicating whether it belongs
+to sentence A or sentence B. As shown in Figure 1,
+we denote input embedding as E, the ﬁnal hidden
+vector of the special [CLS] token as C ∈RH,
+and the ﬁnal hidden vector for the ith input token
+as Ti ∈RH.
+For a given token, its input representation is
+constructed by summing the corresponding token,
+segment, and position embeddings. A visualiza-
+tion of this construction can be seen in Figure 2.
+3.1 Pre-training BERT
+Unlike Peters et al. (2018a) and Radford et al.
+(2018), we do not use traditional left-to-right or
+right-to-left language models to pre-train BERT.
+Instead, we pre-train BERT using two unsuper-
+vised tasks, described in this section. This step
+is presented in the left part of Figure 1.
+Task #1: Masked LM Intuitively, it is reason-
+able to believe that a deep bidirectional model is
+strictly more powerful than either a left-to-right
+model or the shallow concatenation of a left-to-
+right and a right-to-left model. Unfortunately,
+standard conditional language models can only be
+trained left-to-right or right-to-left, since bidirec-
+tional conditioning would allow each word to in-
+directly “see itself”, and the model could trivially
+predict the target word in a multi-layered context.
+former is often referred to as a “Transformer encoder” while
+the left-context-only version is referred to as a “Transformer
+decoder” since it can be used for text generation.
+In order to train a deep bidirectional representa-
+tion, we simply mask some percentage of the input
+tokens at random, and then predict those masked
+tokens. We refer to this procedure as a “masked
+LM” (MLM), although it is often referred to as a
+Cloze task in the literature (Taylor, 1953). In this
+case, the ﬁnal hidden vectors corresponding to the
+mask tokens are fed into an output softmax over
+the vocabulary, as in a standard LM. In all of our
+experiments, we mask 15% of all WordPiece to-
+kens in each sequence at random. In contrast to
+denoising auto-encoders (Vincent et al., 2008), we
+only predict the masked words rather than recon-
+structing the entire input.
+Although this allows us to obtain a bidirec-
+tional pre-trained model, a downside is that we
+are creating a mismatch between pre-training and
+ﬁne-tuning, since the [MASK] token does not ap-
+pear during ﬁne-tuning. To mitigate this, we do
+not always replace “masked” words with the ac-
+tual [MASK] token. The training data generator
+chooses 15% of the token positions at random for
+prediction. If the i-th token is chosen, we replace
+the i-th token with (1) the [MASK] token 80% of
+the time (2) a random token 10% of the time (3)
+the unchanged i-th token 10% of the time. Then,
+Ti will be used to predict the original to

@@ -1,0 +1,454 @@
+{
+  "model": "granite3.3:2b",
+  "model_label": "granite3_3_2b",
+  "method_display": "Fixed 7k chunking",
+  "mode": "fixed",
+  "paper": "papers/bert/bert_44k.txt",
+  "paper_characters": 44000,
+  "chunk_size_characters": 7000,
+  "stage_k": 44,
+  "question_count": 55,
+  "answers": [
+    {
+      "question_id": 1,
+      "question": "",
+      "category": "Retrieval / factual",
+      "ground_truth_answer": "BERT stands for Bidirectional Encoder Representations from Transformers, a language representation model that\npre-trains deep bidirectional representations from unlabeled text.",
+      "answer": "BERT stands for Bidirectional Encoder Representations from Transformers.",
+      "answer_f1": 0.5926
+    },
+    {
+      "question_id": 2,
+      "question": "",
+      "category": "Retrieval / factual",
+      "ground_truth_answer": "BERT\\_BASE has L=12 Transformer layers, H=768 hidden size, A=12 self-attention heads, and 110M total\nparameters.",
+      "answer": "BERT_BASE consists of 12 layers, a hidden size of 768, 12 attention heads, and approximately 110 million parameters.",
+      "answer_f1": 0.4375
+    },
+    {
+      "question_id": 3,
+      "question": "",
+      "category": "Retrieval / factual",
+      "ground_truth_answer": "BERT is pre-trained using two unsupervised tasks: (1) the Masked Language Model (MLM), which masks and predicts\nrandom tokens, and (2) Next Sentence Prediction (NSP), a binarized task that predicts whether one sentence follows\nanother.",
+      "answer": "The two unsupervised tasks used to pre-train BERT are Masked Language Modeling (MLM) and Next Sentence Prediction (NSP). In MLM, a certain percentage of input tokens are randomly masked, and the model predicts these masked tokens based on the context. In NSP, the model is trained to determine whether one sentence follows another in a given text pair.",
+      "answer_f1": 0.5176
+    },
+    {
+      "question_id": 4,
+      "question": "",
+      "category": "Retrieval / factual",
+      "ground_truth_answer": "The pre-training corpus consists of BooksCorpus (800M words) and English Wikipedia (2,500M words); for Wikipedia\nonly the text passages were used, ignoring lists, tables, and headers.",
+      "answer": "BERT was pre-trained on the BooksCorpus (800M words) and English Wikipedia (2,500M words). The BooksCorpus extracts text passages, while the Wikipedia corpus consists of English text from the English Wikipedia. Both corpora are document-level and provide long contiguous sequences suitable for BERT's multi-layer Transformer encoder architecture. The BooksCorpus has approximately 800 million words, and the English Wikipedia contains 2.5 billion words, making BERT's pre-training data roughly large (800M and 2.5 billion words, respectively).",
+      "answer_f1": 0.3736
+    },
+    {
+      "question_id": 5,
+      "question": "",
+      "category": "Retrieval / factual",
+      "ground_truth_answer": "The paper reports in a footnote that the final model achieves 97%–98% accuracy on the Next Sentence Prediction\ntask.",
+      "answer": "The footnote in Section 3.1 does not provide the accuracy of the final pre-trained model regarding the Next Sentence Prediction (NSP) task. The text only describes the NSP task and the process of training BERT without mentioning the accuracy of the pre-trained model on this task.",
+      "answer_f1": 0.3846
+    },
+    {
+      "question_id": 6,
+      "question": "",
+      "category": "Retrieval / factual",
+      "ground_truth_answer": "The MLM objective randomly masks some percentage of the input tokens and then trains the model to predict those\nmasked tokens from their surrounding context, with the final hidden vectors at the mask positions fed into an output\nsoftmax over the vocabulary, as in a standard language model. The authors note this procedure is often referred to in\nthe literature as a Cloze task (citing Taylor, 1953), because it is fundamentally a fill-in-the-blank prediction task.",
+      "answer": "In this paper's terms, the \"masked language model\" (MLM) objective is a pre-training task where a certain percentage (15% in this case) of input tokens are randomly masked, and the model predicts these masked tokens based on their context. It's referred to as a Cloze task because it's similar to a Cloze test in psychometrics, where specific words or phrases are omitted from a passage, and the reader is asked to fill in the blanks, reflecting their understanding of the context. The MLM technique enables the representation of deep bidirectional Transformer models, fusing left and right context.",
+      "answer_f1": 0.3919
+    },
+    {
+      "question_id": 7,
+      "question": "",
+      "category": "Retrieval / factual",
+      "ground_truth_answer": "\"Bidirectional\" means BERT's Transformer encoder uses self-attention in which every token can attend to all other\ntokens in the sequence — both before and after it — at every layer, so representations are built by jointly conditioning\non left and right context simultaneously. This contrasts with unidirectional (left-to-right) models such as OpenAI GPT,\nwhere the self-attention is constrained so each token can only attend to tokens to its left, and with ELMo's approach of\nshallowly concatenating two separately trained left-to-right and right-to-left models rather than jointly conditioning on\nboth directions within a single deep model.",
+      "answer": "In the context of BERT, \"bidirectional\" refers to the architecture's ability to consider the context of both preceding and following words when processing a particular input word. This is achieved through the use of self-attention mechanisms that analyze relationships between all words in a sentence, regardless of their position. In contrast, \"unidirectional\" models like ELMo (Peters et al., 2017, 2018a) only consider the context on one side of the input word—either before or after—hence limiting their representation of sentence-level tasks. BERT's bidirectional approach allows it to leverage context from both directions, making it more effective in understanding the meaning and relationships between words in a sentence.",
+      "answer_f1": 0.266
+    },
+    {
+      "question_id": 8,
+      "question": "",
+      "category": "Retrieval / factual",
+      "ground_truth_answer": "In the feature-based approach (exemplified by ELMo), task-specific architectures are built that incorporate the\npre-trained representations as additional input features, while the pre-trained parameters themselves stay fixed. In the\nfine-tuning approach (exemplified by OpenAI GPT), only minimal task-specific parameters are introduced, and the\nmodel is adapted to downstream tasks by training (fine-tuning) all of the pre-trained parameters together with the small\nnumber of new parameters.",
+      "answer": "The \"feature-based\" strategy involves extracting contextual embeddings from one or more layers of the pre-trained BERT model and then feeding them into a two-layer BiLSTM for classification tasks. This approach demonstrates the effectiveness of using fixed features derived from the pre-trained model, combined with task-specific models for NLP tasks.\n\nIn contrast, the \"fine-tuning\" strategy utilizes all the layers of the BERT model and fine-tunes it directly on specific NLP tasks. The paper shows that the BERT LARGE model fine-tuned on the SWAG dataset achieved a +27.1% improvement over the baseline ESIM+ELMo system and an 8.3% advantage over GPT, demonstrating the potential of directly fine-tuning the entire pre-trained model for specific tasks.\n\nThe research highlights that both methods can yield substantial performance improvements, with the choice of strategy often depending on the task, available resources, and desired interpretability. The study emphasizes the versatility of deep bidirectional architectures like BERT for handling a diverse set of NLP tasks.",
+      "answer_f1": 0.2188
+    },
+    {
+      "question_id": 9,
+      "question": "",
+      "category": "Retrieval / factual",
+      "ground_truth_answer": "When a sequence packs two sentences together, BERT differentiates them in two complementary ways: a special\n[SEP] token is inserted between the sentences as an explicit boundary marker, and a learned segment embedding is\nadditionally added to every token in the sequence to indicate whether that token belongs to sentence A or sentence B.\nThe final token input representation is the sum of the token, segment, and position embeddings, so the segment signal\nis present at every position, not just at the boundary.",
+      "answer": "In BERT, segment (A/B) embeddings are used to differentiate between two sentences in a text pair, distinguishing between sentence A and sentence B. The model uses a special [SEP] (separator) token to mark the end of one sentence and the beginning of the next. While both [SEP] and segment embeddings serve to separate sentences, [SEP] is a single token used to separate sentences in the input sequence, whereas segment embeddings are part of the model's input representation, indicating the belonging of individual tokens to specific sentences (A or B). This allows BERT to consider the context of both sentences simultaneously, as it employs bidirectional self-attention, which is crucial for understanding relationships between sentences.",
+      "answer_f1": 0.3626
+    },
+    {
+      "question_id": 10,
+      "question": "",
+      "category": "Retrieval / factual",
+      "ground_truth_answer": "NSP is a binarized task in which, for each pre-training example, sentence B is the true next sentence following A fifty\npercent of the time (labeled IsNext) and a random sentence from the corpus the other fifty percent of the time (labeled\nNotNext). The task is designed to pre-train the model to understand relationships between sentence pairs, which is\nuseful for downstream tasks like QA and NLI that are not directly captured by language modeling alone. The final\nhidden vector C, corresponding to the [CLS] token, is used to make the IsNext/NotNext prediction. The paper notes\nelsewhere that C is not a meaningful sentence representation on its own until the model has been fine-tuned, since it\nwas trained specifically for the NSP objective.",
+      "answer": "The Next Sentence Prediction (NSP) task trains the model to understand the relationship between two sentences, whether one follows the other (IsNext) or a random sentence (NotNext). The vector C, representing the final hidden vector corresponding to the [SEP] token, is used in this task to differentiate between two sentences in the sequence. This vector helps the model learn to distinguish between sentence pairs and capture the contextual relationships between them. The model is trained using cross-entropy loss to predict this relationship accurately.",
+      "answer_f1": 0.3842
+    },
+    {
+      "question_id": 11,
+      "question": "",
+      "category": "Motivation / concept",
+      "ground_truth_answer": "The authors argue that current pre-training techniques, especially fine-tuning-based ones, restrict the power of\npre-trained representations because standard language models are unidirectional — this limits which architectures can\nbe used during pre-training, for example forcing left-to-right attention as in OpenAI GPT.",
+      "answer": "The \"major limitation\" mentioned is the unidirectional nature of previous methods, such as ELMo, which prevented the representation of sentence-level tasks requiring context from both directions (left-to-right and right-to-left context).",
+      "answer_f1": 0.1515
+    },
+    {
+      "question_id": 12,
+      "question": "",
+      "category": "Motivation / concept",
+      "ground_truth_answer": "The authors reason that restricting architecture choices to unidirectional attention is sub-optimal generally, but the\nharm is greatest for token-level tasks like question answering because it is crucial there to incorporate context from\nboth directions around each token — a left-to-right constrained model (like GPT, where every token can only attend to\npreceding tokens) cannot use information appearing after a given token when building that token's representation,\nwhich is a much more severe handicap for fine-grained, per-token prediction than for tasks that only need a single\nholistic sentence-level judgment.",
+      "answer": "The provided paper context does not explicitly state why the authors argue that unidirectionality is \"sub-optimal\" for sentence-level tasks and could be especially \"harmful\" when applying fine-tuning-based approaches to token-level tasks such as question answering. The context discusses the limitations of previous unidirectional language model pre-training methods like ELMo and introduces BERT, which employs a masked language model (MLM) pre-training objective and next sentence prediction (NSP) task to overcome these limitations. The context highlights that BERT's dual approach enables better representation for sentence-level and token-level tasks, but it does not provide direct arguments from the paper about why unidirectionality is sub-optimal or harmful in fine-tuning-based approaches for token-level tasks.",
+      "answer_f1": 0.3027
+    },
+    {
+      "question_id": 13,
+      "question": "",
+      "category": "Motivation / concept",
+      "ground_truth_answer": "The paper explains that standard conditional language models can only be trained left-to-right or right-to-left, because\nif bidirectional conditioning were used naively, each word would be able to indirectly \"see itself\" through the network's\nmultiple layers — the model could then trivially predict the target word from its own future context rather than genuinely\nlearning to predict it, which is why BERT instead uses masking (predicting only a masked subset of tokens) rather than\na normal bidirectional conditional language-modeling objective.",
+      "answer": "The paper does not explicitly address why standard conditional language models can't simply be trained with bidirectional conditioning, as the provided section (3.1) focuses on explaining the limitations of unidirectional language models, like ELMo, and introduces BERT as an alternative approach that addresses these limitations by employing a masked language modeling (MLM) pre-training objective and a next sentence prediction task. It does not discuss the direct comparison or necessity of bidirectional conditioning in standard models.",
+      "answer_f1": 0.2535
+    },
+    {
+      "question_id": 14,
+      "question": "",
+      "category": "Motivation / concept",
+      "ground_truth_answer": "The authors note that many important downstream tasks, such as Question Answering and Natural Language\nInference, are based on understanding the relationship between two sentences — something that is not directly\ncaptured by a language-modeling objective alone. To give the model this capability, they pre-train it on a binarized\nNext Sentence Prediction task that can be trivially generated from any monolingual corpus.",
+      "answer": "The motivations for introducing the Next Sentence Prediction (NSP) task alongside the masked language model (MLM) in BERT pre-training were primarily to address the limitations of unidirectional language models. By incorporating NSP, the researchers aimed to enable the model to understand relationships between sentences, which is crucial for various downstream NLP tasks. This dual approach helped BERT achieve state-of-the-art performance on a wide range of sentence-level and token-level tasks, outperforming many task-specific architectures.\n\nReference(s):\nPeters, M., Neumann, M., Röder, M., & Ige, D. (2017). Deep contextualized word representations. arXiv preprint arXiv:1708.00105.\nPeters, M., & Neumann, M. (2018a). Masked language modeling: Pre-training of deep bidirectional transformers for language understanding. arXiv preprint arXiv:1805.01921.\nVaswani, A., et al. (2017). Attention is all you need. Advances in Neural Information Processing Systems 30.",
+      "answer_f1": 0.2057
+    },
+    {
+      "question_id": 15,
+      "question": "",
+      "category": "Motivation / concept",
+      "ground_truth_answer": "The authors state that it is critical to use a document-level corpus rather than a shuffled sentence-level corpus such as\nthe Billion Word Benchmark, in order to be able to extract long contiguous sequences of text — implying that a\nshuffled, sentence-level corpus would break the coherent multi-sentence context that BERT's pre-training tasks\n(especially NSP, which depends on real sentence adjacency) rely on.",
+      "answer": "The provided paper context does not contain explicit information explaining why a document-level corpus (like BooksCorpus) is considered \"critical\" for BERT pre-training compared to a shuffled sentence-level corpus (like the Billion Word Benchmark). The context mainly discusses BERT's pre-training on BooksCorpus and Wikipedia, focusing on its ability to extract long contiguous sequences and leverage bidirectional self-attention.\n\nThe context does not explicitly state that using a document-level corpus is critical for BERT's performance, nor does it provide details comparing document-level vs. sentence-level corpora. It mainly emphasizes the effectiveness of BERT's pre-training on large-scale, unannotated text corpora and how this approach allows for the creation of deep bidirectional representations.",
+      "answer_f1": 0.3613
+    },
+    {
+      "question_id": 16,
+      "question": "",
+      "category": "Method / architecture",
+      "ground_truth_answer": "The training data generator first randomly chooses 15% of token positions in a sequence for prediction. For each\nchosen position, the token is (1) replaced with the literal [MASK] symbol 80% of the time, (2) replaced with a random\ntoken from the vocabulary 10% of the time, or (3) left unchanged 10% of the time. Regardless of which of the three\nhappened, the model's final hidden vector at that position, T\\_i, is used to predict the original (true) token via\ncross-entropy loss.",
+      "answer": "During MLM pre-training, a token position is randomly chosen for masking using the 80/10/10 procedure. This means 80% of the time, the original token is replaced with a [MASK] token. In 10% of cases, the token is replaced with a random token, and in the remaining 10% of instances, the token remains unchanged. The model then predicts the original token based on its context, learning to understand the meaning of words in relation to surrounding words.",
+      "answer_f1": 0.4179
+    },
+    {
+      "question_id": 17,
+      "question": "",
+      "category": "Method / architecture",
+      "ground_truth_answer": "Always replacing with [MASK] would create a downside: a mismatch between pre-training and fine-tuning, since the\n[MASK] token never actually appears during fine-tuning. To mitigate this, the procedure sometimes keeps the original\ntoken or substitutes a random one instead. The appendix adds that this also has a further benefit: because the\nTransformer encoder does not know in advance which positions it will be asked to predict, or which tokens have\nsecretly been replaced with random words, it is forced to maintain a distributional contextual representation of every\ninput token, not just the masked ones.",
+      "answer": "BERT does not always replace a chosen token with the literal [MASK] symbol during pre-training because it introduces randomness in the prediction task. The research selects 15% of token positions at random for prediction, replacing the i-th token with the [MASK] token 80% of the time, a random token 10% of the time, and the unchanged i-th token 10% of the time. The model is then trained to predict the original token with cross entropy loss. This approach is intended to mitigate a potential mismatch between pre-training and fine-tuning.",
+      "answer_f1": 0.3924
+    },
+    {
+      "question_id": 18,
+      "question": "",
+      "category": "Method / architecture",
+      "ground_truth_answer": "For a given token, its input representation is constructed by summing the corresponding token embedding, segment\nembedding, and position embedding, as visualized in Figure 2.",
+      "answer": "In BERT, a given token's input representation is constructed using a multi-layer bidirectional Transformer encoder, incorporating WordPiece embeddings with a 30,000-token vocabulary. The model uses a special classification token ([CLS]) to aggregate sequence representations for classification tasks. During pre-training, a masked language modeling (MLM) technique, or Cloze task, is employed, in which 15% of input tokens are randomly masked, and the model predicts these masked tokens' original vocabulary IDs based on their context. Additionally, BERT incorporates a next sentence prediction (NSP) task to jointly pre-train text-pair representations, enabling the model to unambiguously represent both individual sentences and sentence pairs in one token sequence.",
+      "answer_f1": 0.1709
+    },
+    {
+      "question_id": 19,
+      "question": "",
+      "category": "Method / architecture",
+      "ground_truth_answer": "During fine-tuning only, BERT introduces a start vector S ∈ R^H and an end vector E ∈ R^H. The probability that word\ni is the start of the answer span is computed as the dot product of the token's final hidden vector T\\_i with S, passed\nthrough a softmax normalized over all words in the paragraph; the same style of formula, using E, gives the probability\nthat a word is the end of the span. The score of a candidate span from position i to j is S·T\\_i + E·T\\_j, and the\nmaximum-scoring span with j ≥ i is used as the prediction. The training objective is the sum of the log-likelihoods of the\ncorrect start and end positions.",
+      "answer": "For SQuAD, a question-answering task, BERT's fine-tuned model predicts the answer span in a given passage based on a question. The answer span is represented as a start index and an end index within the passage. The model's final hidden vector corresponding to the [CLS] token is used as the aggregate representation, which is then fed into a classification layer for predicting the start and end positions. The start and end positions are typically determined using a combination of softmax and linear layers, although the exact method for obtaining these positions is not explicitly described in the provided context.",
+      "answer_f1": 0.3146
+    },
+    {
+      "question_id": 20,
+      "question": "",
+      "category": "Method / architecture",
+      "ground_truth_answer": "SQuAD v2.0 extends v1.1 by allowing questions with no short answer in the passage. BERT handles this by treating\nquestions without an answer as having an answer span whose start and end are both at the [CLS] token, extending the\nprobability space for start/end positions to include that position. At prediction time, the score of the \"no-answer\" span,\ns\\_null = S·C + E·C, is compared to the score of the best non-null span; a non-null answer is predicted only when the\nbest non-null span's score exceeds s\\_null by more than a threshold τ, where τ is selected on the dev set to maximize\nF1.",
+      "answer": "For SQuAD v2.0, which extends SQuAD 1.1 to handle cases where no answer exists, a simple approach is used to treat such cases as having an answer span with the [CLS] token as both start and end positions. This means that when BERT encounters a question with no answer in the passage, it predicts the [CLS] token as both the beginning and ending of the answer span. The fine-tuning process for BERT LARGE on SQuAD v2.0 involved using the [CLS] token for these unanswerable questions, resulting in improved performance.",
+      "answer_f1": 0.4048
+    },
+    {
+      "question_id": 21,
+      "question": "",
+      "category": "Method / architecture",
+      "ground_truth_answer": "For SWAG, four separate input sequences are constructed per example, each the concatenation of the given sentence\n(as sentence A) with one of the four candidate continuations (as sentence B). The only new parameter is a single\nvector whose dot product with each sequence's [CLS] representation C yields a score for that choice; the four scores\nare normalized with a softmax layer to pick the most plausible continuation. This is structurally different from\nsingle-sentence classification tasks such as SST-2, which use one input sequence per example and a standard\nclassification layer (weight matrix W) applied once to C to produce a probability distribution over the fixed label set.",
+      "answer": "The fine-tuning setup for BERT in the SWAG (Semantic Web Automated Grader) dataset and single-sentence classification tasks like SST-2 (Stanford Question Answering Dataset) differs structurally due to the nature of the tasks themselves. In SWAG, BERT is fine-tuned for 3 epochs with a learning rate of 2e-5 and a batch size of 16, incorporating the input as a sequence of sentence A and sentence B. The output is a vector score for each possible continuation, normalized by a softmax layer. This requires the model to understand the relationship between the two sentences, which is reflected in the input representation with the special [SEP] token for sentence boundaries.\n\nOn the other hand, for single-sentence classification tasks like SST-2, BERT is fine-tuned using all 12 layers of the LARGE model, achieving a Dev F1 of 96.6 and Test F1 of 92.8. The input is a single text passage, and the task-specific parameters introduced are a vector score for each choice, determined by the dot product of this vector with the [CLS] token representation, normalized by a softmax layer. This setup is designed for classification tasks, where the goal is to predict a class label for the entire input passage.\n\nIn summary, the key difference lies in the nature of the input (single or two sentences), the model architecture used (number of layers, hidden units, attention heads), and the task-specific parameters introduced during fine-tuning.",
+      "answer_f1": 0.323
+    },
+    {
+      "question_id": 22,
+      "question": "",
+      "category": "Method / architecture",
+      "ground_truth_answer": "The paper notes that a common prior pattern for text-pair tasks was to independently encode each text before applying\na separate bidirectional cross-attention mechanism between them (citing Parikh et al. 2016 and Seo et al. 2017).\nBERT instead feeds the concatenated sentence pair through the same self-attention mechanism used for everything\nelse; because self-attention over the full concatenated sequence lets every token attend to every other token\nregardless of which sentence it came from, this single encoding step effectively already includes bidirectional\ncross-attention between the two sentences, eliminating the need for a separate cross-attention stage.",
+      "answer": "BERT's self-attention mechanism enables it to model both single sentences and text pairs in a unified manner. In traditional text-pair approaches, tasks like next sentence prediction were carried out separately, whereas BERT incorporates this into its pre-training by using bidirectional self-attention. This mechanism allows the model to consider both individual sentences and their relationship by differentiating between them using a special token ([SEP]) and learned embeddings indicating sentence membership. The two self-attention heads in BERT allow it to process both sentences simultaneously, effectively capturing bidirectional context, thereby replacing the separate stages used in earlier approaches.",
+      "answer_f1": 0.2955
+    },
+    {
+      "question_id": 23,
+      "question": "",
+      "category": "Training / implementation",
+      "ground_truth_answer": "Pre-training used the Adam optimizer with a learning rate of 1e-4, β1 = 0.9, β2 = 0.999, L2 weight decay of 0.01,\nlearning-rate warmup over the first 10,000 steps, and linear decay of the learning rate thereafter.",
+      "answer": "The provided paper context does not contain explicit information about the optimizer and learning rate schedule used for BERT's pre-training.",
+      "answer_f1": 0.2449
+    },
+    {
+      "question_id": 24,
+      "question": "",
+      "category": "Training / implementation",
+      "ground_truth_answer": "To speed up pre-training, the model was pre-trained with a sequence length of 128 for 90% of the steps, then trained\non the remaining 10% of steps with a sequence length of 512, which was done to learn the positional embeddings for\nlonger sequences.",
+      "answer": "The context does not provide specific details about the sequence lengths used during pre-training or the exact proportion of steps each length was utilized. It mentions pre-training on unlabeled data using various unsupervised tasks, employing a multi-layer bidirectional Transformer encoder. However, it does not detail the exact sequence lengths and their respective proportions.",
+      "answer_f1": 0.186
+    },
+    {
+      "question_id": 25,
+      "question": "",
+      "category": "Training / implementation",
+      "ground_truth_answer": "BERT uses a GELU activation (citing Hendrycks and Gimpel, 2016) rather than the standard ReLU activation, a choice\nmade to follow OpenAI GPT.",
+      "answer": "The paper does not explicitly mention the specific activation function used in BERT's feed-forward layers. It only describes the model's architecture, which includes L layers, H hidden size, and A self-attention heads. The choice of activation function for feed-forward layers in BERT would depend on the specific implementation details, which are not provided in the text. BERT's design, including the use of multi-layer bidirectional Transformer encoders, follows the work of Vaswani et al. (2017).",
+      "answer_f1": 0.1176
+    },
+    {
+      "question_id": 26,
+      "question": "",
+      "category": "Training / implementation",
+      "ground_truth_answer": "The model was trained with a batch size of 256 sequences (256 sequences × 512 tokens = 128,000 tokens per batch)\nfor 1,000,000 steps, which the paper states is approximately 40 epochs over the 3.3 billion word corpus (the combined\nsize of BooksCorpus and Wikipedia).",
+      "answer": "The provided paper context does not contain explicit information about the batch size, number of pre-training steps, or the number of epochs over the pre-training corpus.",
+      "answer_f1": 0.2951
+    },
+    {
+      "question_id": 27,
+      "question": "",
+      "category": "Numerical / tables",
+      "ground_truth_answer": "BERT deep-understanding benchmark\n\nPage 3\n\n\fIn Table 1, BERT\\_LARGE's Average is 82.1 and OpenAI GPT's Average is 75.1, giving a difference of 7.0 points —\nnot 7.7. The paper explains this discrepancy itself: Table 1's \"Average\" column is explicitly noted to be \"slightly\ndifferent from the official GLUE score\" because the problematic WNLI set is excluded. The 7.7-point figure in the\nabstract instead corresponds to the official GLUE leaderboard scores discussed later in Section 4.1: BERT\\_LARGE\nscores 80.5 on the official leaderboard, versus OpenAI GPT's 72.8, giving 80.5 − 72.8 = 7.7, which matches the\nabstract exactly.",
+      "answer": "The abstract states BERT achieves a 7.7% point absolute improvement in GLUE score, and Table 1 shows BERTLARGE's Average as 80.5. OpenAI GPT's average in the table is 72.8. Subtracting GPT's average from BERT LARGE's average, we get 80.5 - 72.8 = 7.7. This matches the given improvement in the abstract.\n\nThere are no other numbers in the provided text that match exactly 7.7. However, the paper highlights that BERTLARGE significantly outperforms other systems, including OpenAI GPT, by an average of 7.0 across 11 NLP tasks. This is another indication of BERT's superior performance, aligning with the 7.7% GLUE score improvement.",
+      "answer_f1": 0.4181
+    },
+    {
+      "question_id": 28,
+      "question": "",
+      "category": "Numerical / tables",
+      "ground_truth_answer": "Computing BERT\\_BASE minus OpenAI GPT for each task in Table 1: MNLI-m +2.5, MNLI-mm +2.0, QQP +0.9, QNLI\n+3.1, SST-2 +2.2, CoLA +6.7, STS-B +5.8, MRPC +6.6, and RTE +10.4 (66.4 − 56.0). RTE shows the largest\nsingle-task improvement, at 10.4 points.",
+      "answer": "Table 1 does not provide direct comparisons or point differences between BERT_BASE and OpenAI GPT on GLUE tasks. It only states that BERT LARGE outperforms both GPT and ESIM+ELMo on GLUE, with a 7.0% absolute improvement. Without the specific comparison data, we cannot accurately determine which GLUE task has the largest absolute point improvement for BERT_BASE over OpenAI GPT on the Test set.",
+      "answer_f1": 0.2
+    },
+    {
+      "question_id": 29,
+      "question": "",
+      "category": "Numerical / tables",
+      "ground_truth_answer": "From Table 2, BERT\\_LARGE (Sgl.+TriviaQA) has a Test F1 of 91.8. The two \"Top Leaderboard Systems\" listed are\n#1 Ensemble – nlnet (Test F1 91.7) and #2 Ensemble – QANet (Test F1 90.5). 91.8 − 91.7 = 0.1 (against nlnet), while\n91.8 − 90.5 = 1.3 (against QANet). Only the comparison against the #2 system (QANet) produces the +1.3 figure the\ntext reports for the single-model comparison — the ensemble comparison (+1.5 F1) instead uses BERT\\_LARGE\n(Ens.+TriviaQA)'s Test F1 of 93.2 against the #1 system, nlnet's 91.7 (93.2 − 91.7 = 1.5).",
+      "answer": "To compute the difference, we need to look up the Test F1 scores for the \"Top Leaderboard Systems\" from Table 2:\n\n1. \"SQuAD v1.1\" (Hendrykes et al., 2018): BERTBASE Test F1 = 86.1, BERTLARGE Test F1 = 90.2\n2. \"TriviaQA\" (Joshi et al., 2017): BERTBASE Test F1 = 78.2, BERTLARGE Test F1 = 82.1\n\nNow, let's calculate the differences:\n\n1. BERT_LARGE (SQuAD 1.1) vs. SQuAD v1.1 (Hendrykes et al., 2018): 90.2 - 86.1 = 4.1\n2. BERT_LARGE (SQuAD 1.1) vs. TriviaQA (Joshi et al., 2017): 90.2 - 82.1 = 8.1\n\nComparing these differences, only the second comparison (BERT_LARGE (SQuAD 1.1) vs. TriviaQA) results in a difference of +1.3 (rounded to the nearest tenth), considering that 8.1 - 7.8 = +1.3 (since the actual TriviaQA Test F1 score is 82.1).",
+      "answer_f1": 0.2827
+    },
+    {
+      "question_id": 30,
+      "question": "",
+      "category": "Numerical / tables",
+      "ground_truth_answer": "From Table 3, BERT\\_LARGE (Single) achieves a Test F1 of 83.1. The highest Test F1 among the prior (non-BERT,\nnon-human) systems shown is #1 Single – MIR-MRC (F-Net) at 78.0 — higher than #2 Single – nlnet (77.1) and the\nensemble system unet (74.9). 83.1 − 78.0 = 5.1, matching the paper's stated improvement exactly.",
+      "answer": "The paper does not explicitly list the Test F1 scores of the two systems being compared in Table 3. However, based on the context provided and typical research practices, we can infer the following:\n\n1. BERTBASE and BERTLARGE: The paper discusses fine-tuning BERTBASE (12 layers, 768 hidden size, 12 attention heads, 110M parameters) and BERTLARGE (24 layers, 1024 hidden size, 16 attention heads, 340M parameters) for SQuAD v2.0.\n\n2. ESIM+ELMo (the authors' baseline) and OpenAI GPT: The paper also mentions comparing the performance of BERT models with OpenAI GPT.\n\nTo calculate the \"+5.1 F1 improvement,\" we would need the Test F1 scores of these models:\n\n- Let BERTLARGE_SQuAD2_0 be the Test F1 score of BERTLARGE on SQuAD v2.0.\n- Let OpenAI GPT_SQuAD2_0 be the Test F1 score of OpenAI GPT on SQuAD v2.0.\n- Let BERTBASE_SQuAD2_0 be the Test F1 score of BERTBASE on SQuAD v2.0.\n\nThe \"+5.1 F1 improvement\" for BERTLARGE over OpenAI GPT can be represented as:\n\nImprovement (BERTLARGE vs GPT) = BERTBASE_SQuAD2_0 - OpenAI GPT_SQuAD2_0\n\nThe overall improvement for BERTLARGE compared to the ESIM+ELMo (baseline) can be represented as:\n\nImprovement (BERTLARGE vs ESIM+ELMo) = BERTLARGE_SQuAD2_0 - BERTBASE_SQuAD2_0\n\nWithout the exact Test F1 scores, we cannot provide a precise calculation. However, the overall improvement for BERTLARGE is given as +5.1 F1 over OpenAI GPT.",
+      "answer_f1": 0.1261
+    },
+    {
+      "question_id": 31,
+      "question": "",
+      "category": "Numerical / tables",
+      "ground_truth_answer": "From Table 4, BERT\\_LARGE's SWAG Test accuracy is 86.3%. ESIM+ELMo's Test accuracy is 59.2%, giving 86.3 −\n59.2 = 27.1 points, matching the paper's \"+27.1%\" claim. OpenAI GPT's Test accuracy is 78.0%, giving 86.3 − 78.0 =\n8.3 points, matching the paper's \"8.3%\" claim. Both stated improvements check out exactly against the table.",
+      "answer": "The provided text does not contain a Table 4 for verification, nor does it explicitly list the improvement figures in the manner specified in the question. The text describes a study on fine-tuning BERT for the SWAG dataset, which shows that BERT_LARGE outperforms ESIM+ELMo by +27.1% and OpenAI GPT by 8.3% on the Test set. However, since Table 4 is not present in the given text, a direct verification of these figures cannot be made based on the provided information alone.",
+      "answer_f1": 0.1538
+    },
+    {
+      "question_id": 32,
+      "question": "",
+      "category": "Numerical / tables",
+      "ground_truth_answer": "In Table 6, the smallest configuration (#L=3, #H=768, #A=12) has MNLI-m Dev accuracy of 77.9 and masked-LM\nperplexity of 5.84; the largest configuration (#L=24, #H=1024, #A=16) has MNLI-m Dev accuracy of 86.6 and\nperplexity of 3.23. Accuracy increases by 86.6 − 77.9 = 8.7 points as the model grows, while perplexity decreases\n(improves) by 5.84 − 3.23 = 2.61. Both trends move in the direction the authors describe as \"strict accuracy\nimprovement\" with scale, and lower held-out perplexity, as model size increases.",
+      "answer": "Table 6 does not provide direct MNLI-m Dev accuracy or masked-LM perplexity values for #L=3 and #L=24 BERT configurations. It only presents experimental results for different #L, #H, and #A settings, comparing BERTBASE (#L=12, #H=768, #A=12) to BERTLARGE (#L=24, #H=1024, #A=16).\n\nThe provided context does not contain specific MNLI-m Dev accuracy or masked-LM perplexity values for #L=3 and #L=24 configurations. It focuses on comparing BERTBASE and BERTLARGE model sizes.\n\nTherefore, the requested information cannot be extracted from the given context.",
+      "answer_f1": 0.2781
+    },
+    {
+      "question_id": 33,
+      "question": "",
+      "category": "Numerical / tables",
+      "ground_truth_answer": "From Table 5: \"No NSP\" MRPC accuracy is 86.5 and \"LTR & No NSP\" MRPC accuracy is 77.5, a drop of 86.5 − 77.5 =\n9.0 points. BERT\\_BASE's SQuAD F1 is 88.5 and \"LTR & No NSP\"'s SQuAD F1 is 77.8, a drop of 88.5 − 77.8 = 10.7\npoints. The SQuAD (token-level) drop of 10.7 points is larger than the MRPC (sentence-level) drop of 9.0 points, by\n10.7 − 9.0 = 1.7 points.",
+      "answer": "Table 5 does not provide direct comparison data between \"No NSP\" vs. \"LTR & No NSP\" on MRPC accuracy or between BERT_BASE and \"LTR & No NSP\" on SQuAD F1. Therefore, based solely on the given text, it's not possible to compute the exact points of accuracy or F1 lost in each scenario.\n\nAs the text doesn't offer the specific MRPC and SQuAD results for \"No NSP\" vs. \"LTR & No NSP\" and BERT_BASE vs. \"LTR & No NSP,\" we cannot determine which task loses more or by how much more.\n\nTo answer this question accurately, the missing experiment results would need to be provided in the context.",
+      "answer_f1": 0.2699
+    },
+    {
+      "question_id": 34,
+      "question": "",
+      "category": "Experiment / ablation",
+      "ground_truth_answer": "Both \"No NSP\" and \"LTR & No NSP\" are trained without the Next Sentence Prediction task, so the only difference\nbetween them is that \"No NSP\" still uses the bidirectional Masked LM objective, while \"LTR & No NSP\" is trained as a\nstandard left-to-right language model instead. This comparison therefore isolates the effect of bidirectional\nrepresentation training specifically. The paper reports that the LTR model performs worse than the MLM model on\nevery task shown, with especially large drops on MRPC and SQuAD, demonstrating that deep bidirectionality itself —\nnot merely the presence of NSP — is a major driver of BERT's performance.",
+      "answer": "The comparison between \"No NSP\" and \"LTR & No NSP\" in Table 5 specifically isolates the impact of removing the Next Sentence Prediction (NSP) task during fine-tuning, comparing a bidirectional model (No NSP) with a left-context-only model (LTR & No NSP). This ablation study demonstrates that the bidirectional model (No NSP) performs better than the left-context-only model (LTR & No NSP), highlighting the importance of incorporating both left and right context for sentence representation.",
+      "answer_f1": 0.4675
+    },
+    {
+      "question_id": 35,
+      "question": "",
+      "category": "Experiment / ablation",
+      "ground_truth_answer": "Since a left-to-right model is intuitively expected to perform poorly on token-level prediction (its token-level hidden\nstates have no right-side context), the authors added a randomly initialized BiLSTM on top of the \"LTR & No NSP\"\nmodel as a good-faith attempt to strengthen it, particularly for SQuAD. The BiLSTM did significantly improve SQuAD\nresults relative to the plain LTR model, but the results were still far worse than those of the pre-trained bidirectional\n\nBERT deep-understanding benchmark\n\nPage 4\n\n\fMLM models. Additionally, the BiLSTM addition hurt performance on the GLUE tasks rather than helping.",
+      "answer": "The purpose of adding a randomly initialized BiLSTM on top of the \"LTR & No NSP\" model was to further improve performance on various GLUE tasks. The results showed that this approach led to improved accuracy compared to using only the bidirectional model (No NSP). However, it didn't outperform the original bidirectional model on all tasks. This ablation study highlights the importance of selecting appropriate architectures for specific downstream tasks, as the feature-based approach with a BiLSTM achieved better results on SQuAD but not on other tasks in this research.",
+      "answer_f1": 0.3975
+    },
+    {
+      "question_id": 36,
+      "question": "",
+      "category": "Experiment / ablation",
+      "ground_truth_answer": "In the feature-based section of Table 7, using only the non-contextual input embeddings gives a Dev F1 of 91.0,\nclearly worse than using any contextual hidden layer. Using the single last hidden layer gives 94.9, and the single\nsecond-to-last hidden layer gives 95.6. Combining information across the top layers performs best: concatenating the\nlast four hidden layers achieves 96.1 Dev F1 (the best feature-based result, and only 0.3 F1 behind fully fine-tuning\nBERT\\_BASE's 96.4), while weighting a sum across all 12 layers gives 95.5, slightly worse than concatenating just the\ntop four. This pattern demonstrates that useful task-relevant information for NER is not concentrated in any single\nlayer, and combining several of the upper layers captures more of it than relying on any one layer alone or on the raw\ninput embeddings.",
+      "answer": "The feature-based ablation on CoNLL-2003 NER (Table 7) demonstrates that contextual embeddings extracted from one or more layers and combined with a two-layer BiLSTM for classification can be highly effective, achieving 96.1 F1. This suggests that useful task-relevant information resides in the deeper layers of the BERT model, as well as in the contextual embeddings generated by BiLSTM layers. The study emphasizes the importance of leveraging these features for named entity recognition tasks, showcasing the versatility of BERT's deep bidirectional architecture in handling diverse NLP tasks.",
+      "answer_f1": 0.2929
+    },
+    {
+      "question_id": 37,
+      "question": "",
+      "category": "Experiment / ablation",
+      "ground_truth_answer": "Table 8 shows that fine-tuning is surprisingly robust to different masking-rate combinations: MNLI fine-tuning accuracy\nstays within a narrow band (roughly 83.6–84.4) and NER fine-tuning F1 stays within a narrow band (roughly\n94.8–95.4) across all six tested strategies, including the default 80/10/10 strategy. However, the feature-based NER\nresults are more sensitive: using only the MASK strategy (100% MASK, 0% SAME, 0% RND) is described as\nproblematic for the feature-based approach, dropping NER feature-based F1 to 94.0 — the joint lowest score in that\ncolumn. Using only the RND strategy (0% MASK, 0% SAME, 100% RND) also performs notably worse than the default\nstrategy on MNLI (83.6, the lowest MNLI score in the table).",
+      "answer": "The masking-strategy ablation in Table 8 examines the impact of various masking strategies on the performance of the BERT model during fine-tuning. It compares the standard masked language modeling (MLM) with other methods such as next sentence prediction (NSP) and different combinations of masked and sentence pair inputs.\n\nThe robustness of fine-tuning is shown to be quite high across different masking strategies, with the standard MLM generally outperforming other approaches. However, this robustness begins to break down when considering the elimination of the NSP task entirely. When NSP is removed, and only MLM is employed, the performance of the model deteriorates on downstream tasks. This suggests that understanding sentence relationships, as facilitated by NSP, is an essential aspect of BERT's fine-tuning process, contributing significantly to its overall performance on various natural language understanding and generation tasks.",
+      "answer_f1": 0.177
+    },
+    {
+      "question_id": 38,
+      "question": "",
+      "category": "Experiment / ablation",
+      "ground_truth_answer": "The authors conclude from Table 6 that larger models lead to a strict accuracy improvement across all four datasets\ntested, even for MRPC, which has only 3,600 labeled training examples and is substantially different in nature from the\npre-training tasks. They call this \"perhaps surprising\" because these gains are achieved on top of models that are\nalready quite large relative to the existing literature — for comparison, they note the largest Transformer explored in\nVaswani et al. (2017) had about 100M encoder parameters, and the largest Transformer found elsewhere in the\nliterature (Al-Rfou et al., 2018) had about 235M parameters, while BERT\\_BASE and BERT\\_LARGE already have\n110M and 340M parameters respectively before any of this additional scaling analysis.",
+      "answer": "The conclusion that can be drawn from Table 6 is that larger models (BERT BASE and BERTLARGE) generally outperform smaller models (BERT SMALL) on various GLUE benchmark tasks, even when the labeled data is limited. This finding is somewhat surprising because, traditionally, larger models are expected to perform better only when there is abundant labeled data available for training. However, BERT's performance advantage persists even with small datasets, suggesting that the model's size is not merely beneficial for large datasets but also for data-scarce scenarios. This insight could potentially reshape the approach to model selection based on dataset size.",
+      "answer_f1": 0.2718
+    },
+    {
+      "question_id": 39,
+      "question": "",
+      "category": "Evidence / reasoning",
+      "ground_truth_answer": "The introduction's claim (page 4171) is that unidirectional constraints could be \"very harmful\" for token-level tasks like\nQA. The Table 5 ablation in Section 5.1 (page 4178) provides direct experimental evidence: comparing BERT\\_BASE\n(SQuAD F1 88.5) to the \"LTR & No NSP\" left-to-right model (SQuAD F1 77.8) shows a 10.7-point drop — clearly larger\nthan the drops on the GLUE sentence-level tasks in the same table (e.g., SST-2 drops only 0.6 points, from 92.7 to\n92.1). The accompanying text in Section 5.1 explains this directly: it states that a left-to-right model performs poorly at\ntoken-level predictions specifically because the token-level hidden states have no right-side context, which is exactly\nthe mechanism the introduction anticipated in the abstract discussion of QA needing bidirectional context.",
+      "answer": "The study comparing two approaches for named entity recognition (NER) using BERT on the CoNLL-2003 dataset directly addresses the claim that unidirectionality is harmful for token-level tasks. The fine-tuning approach achieved a Dev F1 of 96.6 and Test F1 of 92.8, while the feature-based approach, which extracted contextual embeddings from one or more layers and employed a two-layer BiLSTM, had a Dev F1 of 96.1 and a Test F1 of 91.8.\n\nQuantitatively, this evidence shows that the fine-tuning method outperformed the feature-based approach on both development and test datasets by 0.6 F1 points for F1 scores and 5.1% for accuracy in test datasets. This result provides direct experimental evidence supporting the claim that unidirectionality (as explored in ELMo and other unidirectional models) is detrimental for token-level tasks like NER.",
+      "answer_f1": 0.2832
+    },
+    {
+      "question_id": 40,
+      "question": "",
+      "category": "Evidence / reasoning",
+      "ground_truth_answer": "Section 3 (page 4173) asserts that BERT's architecture is unified across tasks, with minimal difference between the\npre-trained and fine-tuned architectures. Section 3.2 (page 4175) makes this concrete: at the input side, the sentence\nA/sentence B format used in pre-training is reinterpreted, without architectural change, as sentence pairs in\nparaphrasing, hypothesis-premise pairs in entailment, question-passage pairs in question answering, or a degenerate\ntext-∅ pair for single-text classification/tagging tasks. At the output side, the same architecture branches only in which\noutput layer is attached: token-level representations feed an output layer for token-level tasks like sequence tagging or\nQA, while the [CLS] representation feeds an output layer for classification tasks like entailment or sentiment analysis.\nIn every case, the underlying pre-trained Transformer parameters are reused as-is, and only a small, task-specific\noutput layer is newly introduced — directly realizing the \"minimal difference\" and \"unified architecture\" claims from\nSection 3.",
+      "answer": "Section 3.2's description of fine-tuning supports the claim by demonstrating that BERT can be adapted to various downstream tasks without the need for extensive architecture changes. The research highlights the use of self-attention mechanisms in BERT, which allows for the unified representation of single texts or text pairs. This enables the model to incorporate bidirectional cross attention between two sentences, effectively adapting to different NLP tasks by merely swapping out appropriate inputs and outputs. The fine-tuning process for tasks like SQuAD v1.1 and SQuAD v2.0 involves updating the classification layer weights W, while keeping the self-attention mechanism intact. This showcases the versatility of BERT's architecture, realizing the claim of unified pre-training and fine-tuning.",
+      "answer_f1": 0.2532
+    },
+    {
+      "question_id": 41,
+      "question": "",
+      "category": "Evidence / reasoning",
+      "ground_truth_answer": "In the same paragraph as the \"first work to demonstrate convincingly\" claim, the authors cite two contrasting prior\nfindings: Peters et al. (2018b) reported mixed results on downstream task performance when increasing a pre-trained\nbidirectional LM's size from two to four layers, and Melamud et al. (2016) mentioned in passing that increasing hidden\n\nBERT deep-understanding benchmark\n\nPage 5\n\n\fdimension size from 200 to 600 helped, but increasing further to 1,000 brought no further improvement. Both of those\nprior studies used a feature-based approach. The BERT authors hypothesize that the key difference is the fine-tuning\napproach itself: when a model is fine-tuned directly on the downstream task, using only a small number of newly\n(randomly) initialized parameters, the task-specific model can benefit from the larger, more expressive pre-trained\nrepresentations even when the downstream task's own training data is very small — an effect that a feature-based\napproach, which keeps the pre-trained representations frozen and adds a separate task-specific architecture on top,\napparently does not exhibit as strongly.",
+      "answer": "The claim implicitly contrasts with findings from earlier works that might suggest scaling model sizes always leads to improved performance or that the effect is limited to larger tasks. The authors, through Section 5.2, assert that this advantage of large model sizes is primarily beneficial for small-scale tasks, provided the model is sufficiently pre-trained (e.g., using BERT, which was trained on BooksCorpus and English Wikipedia). This contrasts with works that might assume a universal positive correlation between model size and performance across various task scales. The authors' result is distinct because it specifically addresses the value of large-scale pre-training for tasks where labeled data is scarce.",
+      "answer_f1": 0.251
+    },
+    {
+      "question_id": 42,
+      "question": "",
+      "category": "Evidence / reasoning",
+      "ground_truth_answer": "Section 3.1 (page 4174) states the abstract 80/10/10 rule for masking a chosen token position. The Appendix (page\n4183, §A.1) makes this concrete with the example sentence \"my dog is hairy,\" where the random masking procedure\nselects the 4th token, \"hairy.\" It shows: 80% of the time, the word is replaced with [MASK], yielding \"my dog is\n[MASK]\"; 10% of the time, it is replaced with a random word, yielding the example \"my dog is apple\"; and 10% of the\ntime, the word is kept unchanged, yielding \"my dog is hairy\" — identical to the original sentence, with the appendix\nexplicitly noting this unchanged case is meant to bias the representation toward the actual observed word.",
+      "answer": "The Appendix's worked example in Section 3.1 makes the 80/10/10 masking design concrete by illustrating how tokens are randomly selected for masking, 80% of the time replaced with a random token, and 10% with the original token (kept unchanged). Specifically, in this example, the token \"apple\" is designated as the one that remains unchanged during masking, with the other 90% of tokens being randomly masked and replaced with either a random token or the original token, based on a probability of 80% and 20%, respectively.",
+      "answer_f1": 0.3931
+    },
+    {
+      "question_id": 43,
+      "question": "",
+      "category": "Evidence / reasoning",
+      "ground_truth_answer": "The abstract's claim (page 4171) that BERT needs no substantial task-specific architecture changes is borne out\nconcretely by Sections 3.2, 4.2, and 4.4. Section 3.2 (page 4175) states the general principle: for each task, the\ntask-specific inputs and outputs are simply plugged into BERT, and all parameters are fine-tuned end-to-end. Section\n4.2 (page 4176) shows this in the SQuAD case: the only new parameters introduced during fine-tuning are a start\nvector S ∈ R^H and an end vector E ∈ R^H, used via dot products with the token hidden states to score candidate\nanswer spans. Section 4.4 (page 4178) shows this in the SWAG case: the only task-specific parameter introduced is a\nsingle vector whose dot product with the [CLS] representation C produces a score for each of the four candidate\ncontinuations, normalized with a softmax. In both cases, only a handful of new parameters (a vector or two) are added\non top of the full pre-trained Transformer encoder, with no new layers, attention mechanisms, or task-specific\nsub-networks — directly and concretely supporting the abstract's claim.",
+      "answer": "In the SQuAD fine-tuning example (Section 4.2), BERT introduces only the task-specific classification layer weights W, which are added during the fine-tuning stage. These weights are denoted as W and are part of the model's output layer responsible for predicting the answer span in a given passage based on a question. The model was fine-tuned for 3 epochs with a learning rate of 2e-5 and a batch size of 16. Thus, the only additional parameters introduced for SQuAD were the weights W, resulting in minimal modification to the original BERT architecture.\n\nFor the SWAG dataset (Section 4.4), the approach employed a feature-based method where fixed features were extracted from the pre-trained BERT model, and task-specific parameters were added. The model was fine-tuned for 3 epochs with a learning rate of 2e-5. The task-specific parameters introduced in this scenario were primarily related to the classification head, which predicts the likelihood of a given sentence continuation based on the provided context. In this case, the number of additional parameters is limited as compared to task-specific architectures that would require modifying the BERT encoder layers.\n\nBoth examples support the abstract's claim of \"substantial task-specific architecture modifications\" by demonstrating that BERT's flexibility allows for minimal alterations during fine-tuning, primarily limited to the addition of task-specific classification or classification head parameters. This capability is a direct result of BERT's deep bidirectional Transformer architecture, which enriches pre-trained contextualized representations, requiring fewer modifications for diverse downstream tasks.",
+      "answer_f1": 0.3207
+    },
+    {
+      "question_id": 44,
+      "question": "",
+      "category": "Evidence / reasoning",
+      "ground_truth_answer": "The paper's evidence for this claim is the Section 5.1 ablation study: the \"LTR & No NSP\" configuration is explicitly\ndescribed as being trained to be directly comparable to OpenAI GPT, while still using BERT's own (larger) training\ndataset, BERT's own input representation, and BERT's own fine-tuning scheme. Because this LTR & No NSP model\nperforms substantially worse than full BERT\\_BASE across GLUE tasks and SQuAD, the authors argue the remaining\ngap (bidirectionality plus the two pre-training tasks) accounts for the majority of the empirical improvement over GPT.\nHowever, this specific evidence would NOT justify the stronger claim that other differences (BooksCorpus+Wikipedia\nvs. BooksCorpus alone, 128,000- vs. 32,000-word batch sizes, or BERT's per-task fine-tuning learning rate vs. GPT's\nfixed 5e-5) contribute nothing at all to BERT's real-world advantage over the actual published GPT system — because\nthe \"LTR & No NSP\" ablation deliberately keeps BERT's larger corpus, input representation, and fine-tuning scheme\nfixed while varying only bidirectionality and NSP. It therefore isolates the effect of bidirectionality/pre-training tasks\n*within an already-GPT-matched-as-closely-as-possible setup*, not the total, cumulative effect of every training\ndifference relative to the real GPT model as originally trained and reported.",
+      "answer": "The paper supports its claim about the significance of bidirectionality and the two pre-training tasks over GPT by presenting experimental results that demonstrate superior performance on a wide range of NLP tasks, such as GLUE, SQuAD, and question-answering datasets. The paper emphasizes that BERT's performance gains, particularly on tasks requiring deep bidirectional understanding (like GLUE), cannot be solely attributed to larger model sizes or specific fine-tuning strategies (learning rate, batch size, etc.), as BERTBASE and BERTLARGE, with varying sizes, outperform GPT, indicating that the key innovation lies in the model architecture itself—bidirectional training and the dual NSP task.\n\nA stronger claim that would NOT be justified given the evidence presented in the paper is that BERT's superiority over GPT can be attributed to a single aspect, like the bidirectional encoder design, irrespective of other factors such as model size, learning rate, batch size, or specific fine-tuning strategies. The evidence in the paper does not isolate a single factor as the sole reason for BERT's superior performance; instead, it shows a confluence of factors (bidirectional training, dual NSP task) working together to produce state-of-the-art results over GPT.",
+      "answer_f1": 0.3519
+    },
+    {
+      "question_id": 45,
+      "question": "",
+      "category": "Evidence / reasoning",
+      "ground_truth_answer": "No, this is not established, and the paper's own text argues the opposite of \"no benefit.\" The best-performing\nBERT\\_LARGE SQuAD 1.1 system explicitly used modest data augmentation: it was first fine-tuned on TriviaQA\nbefore being fine-tuned on SQuAD. The paper reports that without this TriviaQA fine-tuning data, the model's Dev/Test\nscores drop by 0.1–0.4 F1 (a specific range explicitly given), while still outperforming all existing systems by a wide\nmargin. This shows two things simultaneously: BERT's SQuAD performance does benefit somewhat from external QA\ndata (the drop when it's removed is nonzero), but that benefit is small in magnitude, and BERT\\_LARGE's core\nstrength does not depend heavily on it. Concluding \"BERT gets no benefit at all from external QA data\" would\nover-read the \"still outperforms... by a wide margin\" framing and ignore the explicitly quantified 0.1–0.4 F1 loss.",
+      "answer": "No, the provided paper context does not establish that BERT does not benefit at all from external question-answering data, such as SQuAD v1.1. The text states that BERTBASE and BERTLARGE significantly outperform other systems on SQuAD v1.1, achieving an accuracy improvement of +5.1 F1. This demonstrates that BERT does benefit from external question-answering data, as it outperforms previous systems and its own baseline.",
+      "answer_f1": 0.3636
+    },
+    {
+      "question_id": 46,
+      "question": "",
+      "category": "Evidence / reasoning",
+      "ground_truth_answer": "The evidence in Table 8 supports the claim that fine-tuning is \"surprisingly robust to different masking strategies\" —\nacross all six tested MASK/SAME/RND probability combinations, MNLI fine-tuning accuracy and NER fine-tuning F1\n\nBERT deep-understanding benchmark\n\nPage 6\n\n\fboth stay within a fairly narrow range, without collapsing even for combinations quite different from BERT's actual\n80/10/10 choice. However, the same section immediately provides a caveat that limits this claim: it states that using\nonly the MASK strategy (100% MASK) is problematic specifically when applying the *feature-based* approach to NER,\nwhere performance drops to 94.0 F1, the lowest score in that column. This means the \"robustness\" finding is explicitly\nscoped to the fine-tuning setting; it would not be justified to claim, based on this evidence, that BERT's representations\nare robust to masking-strategy choice under every way of using them (fine-tuning and feature-based alike) — the\nfeature-based NER results show a real, paper-acknowledged exception.",
+      "answer": "The masking-strategy ablation (Table 8, Section C.2) supports the claim that fine-tuning BERT's self-attention mechanism with a Cloze task is robust for capturing sentence-level dependencies. However, this claim has a significant caveat: it demonstrates effectiveness when 15% of input tokens are masked, but this approach does not always replace \"masked\" words with the actual [MASK] token. Instead, the training data generator selects random 15% of token positions, replacing them with various tokens (original, random, or unchanged) with a specific probability. The model's ability to accurately predict masked tokens is crucial, as it reflects the model's capacity to understand context, but the robustness of this claim depends on the validity of this random token substitution strategy.",
+      "answer_f1": 0.2963
+    },
+    {
+      "question_id": 47,
+      "question": "",
+      "category": "Multi-hop / synthesis",
+      "ground_truth_answer": "Problem (p. 4171, §1): Standard language models are unidirectional, restricting pre-training architecture choices and\nbeing especially harmful for token-level tasks like QA where bidirectional context matters. Motivation (p. 4171–4174,\n§1, §3.1): Fine-tuning-based approaches in particular need deep bidirectional representations, but a naive bidirectional\nconditional LM is impossible to train because each word could indirectly \"see itself\" through the network. Design (p.\n4174, §3.1): Solve this via a Masked Language Model — randomly mask 15% of tokens (with an 80/10/10\nsub-procedure to reduce pre-train/fine-tune mismatch) and predict them from context, inspired by the Cloze task;\nadditionally add a Next Sentence Prediction task, since sentence-relationship understanding (needed for QA/NLI) is\nnot directly captured by language modeling alone. Method (p. 4173–4175, §3): Implement this as a multi-layer\nbidirectional Transformer encoder (BERT\\_BASE: 110M params; BERT\\_LARGE: 340M params), pre-trained on\nBooksCorpus + Wikipedia (3.3B words) with the combined MLM+NSP objective, then fine-tuned per downstream task\nby adding only a small task-specific output layer. Experiment (p. 4175–4179, §4–§5): Fine-tune and evaluate on\nGLUE, SQuAD v1.1, SQuAD v2.0, and SWAG (Section 4); run ablations removing NSP, removing bidirectionality (LTR\n& No NSP), varying model size, and comparing fine-tuning to a feature-based approach on NER (Section 5). Evidence:\nBERT\\_BASE and BERT\\_LARGE outperform all prior systems by substantial margins across all eleven tasks (Tables\n1–4); removing NSP hurts MNLI/QNLI/SQuAD; removing bidirectionality (going fully left-to-right) hurts every task,\nespecially the token-level SQuAD task (Table 5); larger models improve performance even on small datasets like\nMRPC (Table 6); a feature-based use of BERT's representations comes close to, but does not quite match, fine-tuning\n(Table 7). Conclusion (p. 4179, §6): Rich, unsupervised pre-training — generalized here to deep bidirectional\narchitectures via MLM and NSP — is an integral, empirically well-supported contributor to strong performance across a\nbroad set of NLP tasks, including low-resource ones.",
+      "answer": "Problem: Traditional left-to-right or right-to-left language models limit the representation of sentence-level tasks requiring context from both directions.\n\nMotivation: The need for a model capable of effectively capturing contextual information from both directions to enhance performance on sentence-level tasks.\n\nDesign: The research introduces BERT, a pre-training and fine-tuning framework using a multi-layer bidirectional Transformer encoder, employing WordPiece embeddings, and a special classification token ([CLS]) for aggregation.\n\nMethod: BERT uses MLM and NSP for pre-training, where MLM involves predicting masked tokens based on context, and NSP understands sentence relationships by classifying whether sentence B follows sentence A or not.\n\nExperiment: BERT is pre-trained on a diverse corpus (BooksCorpus and English Wikipedia) with the MLM and NSP tasks. Fine-tuning is performed for various NLP tasks using the [CLS] token representation.\n\nEvidence: BERT outperforms previous systems and baselines on 11 NLP tasks, including GLUE, MNLI, SQuAD, and SWAG. Ablation studies confirm the importance of the NSP task and demonstrate the effectiveness of larger BERT models for improved accuracy.\n\nConclusion: BERT demonstrates the significance of bidirectional pre-training for language representations, surpassing task-specific architectures in various NLP tasks and advancing the state-of-the-art in sentence-level understanding, common sense reasoning, and reading comprehension.",
+      "answer_f1": 0.3305
+    },
+    {
+      "question_id": 48,
+      "question": "",
+      "category": "Multi-hop / synthesis",
+      "ground_truth_answer": "Table 5's \"No NSP\" row is exactly this counterfactual (MLM retained, NSP removed) tested against BERT\\_BASE\n(both trained). MNLI-m accuracy would fall from 84.4 to 83.9 (−0.5 points), and SQuAD F1 would fall from 88.5 to 87.9\n(−0.6 points). The paper's own text describes these effects, along with QNLI's, as NSP \"hurting performance\nsignificantly\" — QNLI shows by far the largest drop (88.4 → 84.9, a 3.5-point fall). However, this effect is clearly not\nuniform: MRPC would barely move (86.7 → 86.5, −0.2) and SST-2 would barely move (92.7 → 92.6, −0.1). So the\nevidence supports a real but task-dependent effect: sentence-pair-relationship-sensitive tasks (QNLI, MNLI) and the\ntoken-level SQuAD task lose noticeably more than single-sentence-style tasks like SST-2, or MRPC (which is itself a\nsentence-pair task but shows little change here), and QNLI in particular is far more affected than either MNLI or\nSQuAD.",
+      "answer": "The paper does not provide enough information to directly answer this question. While it mentions the Next Sentence Prediction (NSP) task as crucial for BERT's performance on various NLP tasks, including question answering and natural language inference, it doesn't explicitly state that removing NSP would lead to a decrease in performance on MNLI and SQuAD 1.1. Moreover, the paper doesn't offer evidence suggesting whether this effect would be consistent across all tasks. To answer this accurately, one would need access to additional data or experimentation not provided in this research paper.",
+      "answer_f1": 0.2054
+    },
+    {
+      "question_id": 49,
+      "question": "",
+      "category": "Multi-hop / synthesis",
+      "ground_truth_answer": "Read in isolation, Section 5.1 (Table 5) shows that, holding architecture size roughly fixed near BERT\\_BASE,\nswitching the *pre-training objective* from bidirectional MLM+NSP to a left-to-right LM without NSP causes large\nperformance drops (e.g., MRPC 86.7→77.5, SQuAD F1 88.5→77.8). Read in isolation, Section 5.2 (Table 6) shows\nthat, holding the pre-training *objective* fixed (always MLM+NSP), increasing model *size* from 3 layers to 24 layers\ncauses strict, continual improvements on MNLI-m, MRPC, and SST-2. Interpreted together rather than separately,\nthese two ablations indicate that BERT's overall strong performance is not attributable to a single cause — it depends\non getting the pre-training *objective* right (deep bidirectionality plus NSP, per 5.1) AND on sufficient model *scale*\n(per 5.2); the two effects appear largely additive and independent factors uncovered by two different, orthogonal\nexperimental manipulations (objective type vs. parameter count), rather than the same underlying variable measured\ntwice. A reading of either ablation alone would risk over-attributing BERT's success either purely to its novel\npre-training objective or purely to scale, when the paper's own evidence points to both mattering substantially.",
+      "answer": "Interpreting sections 5.1 (pre-training task ablation) and 5.2 (model size ablation) together reveals that BERT's performance is not solely dependent on the choice of pre-training tasks (masked language modeling, next sentence prediction) but also on the model's size (BERTBASE and BERTLARGE).\n\nPre-training task ablation (section 5.1) shows that BERT's performance on GLUE benchmark tasks is significantly improved with the addition of the next sentence prediction (NSP) objective. This demonstrates that NSP helps BERT learn contextual relationships between sentences, which is crucial for various downstream NLP tasks.\n\nModel size ablation (section 5.2) indicates that larger BERT models (BERTBASE and BERTLARGE) consistently outperform smaller ones (e.g., 12-layer BERT) across various GLUE tasks. This suggests that increasing the model's capacity (more layers, hidden size, attention heads) directly contributes to better performance.\n\nCombining the findings from both sections, we can infer that BERT's overall performance is driven by two main factors:\n\n1. The use of unidirectional pre-training tasks: BERT's ability to learn from both directions (masked language modeling and next sentence prediction) is crucial, as it allows the model to capture contextual relationships effectively.\n\n2. The model's size and complexity: Larger models with more layers, attention heads, and hidden units tend to perform better, likely due to their capacity to learn more intricate representations and relationships between words.\n\nIn conclusion, both the choice of pre-training tasks and the model's size play essential roles in determining BERT's overall performance.",
+      "answer_f1": 0.2916
+    },
+    {
+      "question_id": 50,
+      "question": "",
+      "category": "Multi-hop / synthesis",
+      "ground_truth_answer": "BERT deep-understanding benchmark\n\nPage 7\n\n\fSection 5.3 lists two advantages of the feature-based approach over fine-tuning. The relevant one here is explicitly\ncomputational: there are major computational benefits to pre-computing an expensive representation of the training\ndata once, and then running many experiments with cheaper models on top of that fixed representation. If the authors\nalways used the fine-tuning approach instead, this advantage would be lost — since fine-tuning requires jointly training\nall of BERT's parameters end-to-end for each downstream task/configuration, every new experiment or model variant\nwould require re-running the full, comparatively expensive fine-tuning process on the entire BERT model, rather than\ncheaply reusing a single pre-computed set of contextual features across many lightweight downstream experiments.",
+      "answer": "According to Section 5.3, if the authors always used the fine-tuning approach (utilizing all 12 layers of BERT LARGE) and never employed the feature-based approach, the computational advantage of having a single pre-trained model capable of handling a diverse set of NLP tasks would be lost. The fine-tuning approach, while potentially more accurate in specific tasks, requires the use of all layers of the BERT model, which can be more resource-intensive and less efficient for various downstream tasks. In contrast, the feature-based approach extracts contextual embeddings from one or more layers and employs a two-layer BiLSTM for classification, which may be more computationally economical, especially when dealing with a large number of experiments.",
+      "answer_f1": 0.3636
+    },
+    {
+      "question_id": 51,
+      "question": "",
+      "category": "Hallucination check",
+      "ground_truth_answer": "\"Insufficient information in the paper.\" The paper reports that BERT\\_LARGE was trained on 16 Cloud TPUs (64 TPU\nchips total) over 4 days, but it does not report carbon emissions, energy consumption, or any related\nenvironmental-cost figure anywhere in the text.",
+      "answer": "The provided paper context does not contain enough information to determine the exact carbon emissions or energy cost of pre-training BERT_LARGE. This information is not reported in the context, as it primarily focuses on the BERT model architecture, pre-training techniques, and performance on various NLP tasks.",
+      "answer_f1": 0.3
+    },
+    {
+      "question_id": 52,
+      "question": "",
+      "category": "Hallucination check",
+      "ground_truth_answer": "\"Insufficient information in the paper.\" All pre-training data described (BooksCorpus and English Wikipedia) and all\nevaluation benchmarks described (GLUE, SQuAD v1.1, SQuAD v2.0, SWAG, CoNLL-2003 NER) are\nEnglish-language tasks; the paper contains no experiments, results, or discussion of non-English or multilingual\nperformance.",
+      "answer": "The provided research paper context does not contain explicit information about BERT's performance on non-English languages or multilingual benchmarks. The context primarily focuses on BERT's implementation, architecture, pre-training, and application in various English NLP tasks. The effectiveness of BERT for non-English or multilingual scenarios is not discussed or evaluated in this paper.",
+      "answer_f1": 0.3371
+    },
+    {
+      "question_id": 53,
+      "question": "",
+      "category": "Hallucination check",
+      "ground_truth_answer": "\"Insufficient information in the paper.\" Section 4.3 states that a non-null answer is predicted when the best span's\nscore exceeds the no-answer score plus a threshold τ, and that τ \"is selected on the dev set to maximize F1\" — but\nthe paper never states what numeric value τ actually took, nor does it report any sensitivity analysis of performance\nwith respect to different τ values.",
+      "answer": "The provided paper context does not contain information regarding the selection of a specific numeric value for threshold τ in SQuAD v2.0's no-answer decision or the sensitivity of performance to that value.",
+      "answer_f1": 0.3218
+    },
+    {
+      "question_id": 54,
+      "question": "",
+      "category": "Hallucination check",
+      "ground_truth_answer": "\"Insufficient information in the paper.\" The paper reports pre-training hardware/duration (TPU counts, days) and\nfine-tuning training time (e.g., roughly 30 minutes on a single Cloud TPU for the SQuAD model, or at most an hour on\na single Cloud TPU for GLUE tasks), but it does not report or compare inference/prediction latency for BERT versus\nELMo, or versus any other system, anywhere in the paper.",
+      "answer": "The provided paper context does not contain enough information to compare BERT's inference latency with ELMo's at deployment time, as it primarily discusses BERT's architecture, pre-training method, and performance on various NLP tasks.",
+      "answer_f1": 0.2889
+    },
+    {
+      "question_id": 55,
+      "question": "",
+      "category": "Hallucination check",
+      "ground_truth_answer": "\"Insufficient information in the paper.\" Appendix A.4 states that GPT was trained with a batch size of 32,000 words\nwhile BERT was trained with 128,000 words, as one of several listed differences between the two systems' training\nsetups. However, the paper does not report any ablation experiment that isolates the effect of batch size alone\n(holding everything else constant) on GLUE or any other downstream score — the only ablations reported (Section 5)\nvary the pre-training objective/bidirectionality and the model size, not the pre-training batch size. Any specific GLUE\nscore under this counterfactual batch size is therefore not something the paper provides.",
+      "answer": "The provided paper context does not contain enough information to answer this question, as it does not detail the performance of BERT with a smaller batch size compared to OpenAI GPT's 32,000-word batch size, nor does it provide an average GLUE score for both models in such a comparison.",
+      "answer_f1": 0.25
+    }
+  ],
+  "source": "User-provided combined BERT stage results"
+}

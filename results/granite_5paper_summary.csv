@@ -1,0 +1,6 @@
+Paper ID,Questions,Characters,Direct F1,Chunk F1,Direct Time,Chunk Time,RAM,Model
+paper_0001,9,17368,0.0583,0.0577,493.15,556.25,31.95,granite
+paper_0002,3,39663,0.0196,0.0112,360.43,415.44,30.29,granite
+paper_0003,6,39364,0.1331,0.0986,628.76,25299.74,29.55,granite
+paper_0004,12,27489,0.0444,0.0413,1018.6,1036.3,27.15,granite
+paper_0005,3,15202,0.0331,0.0451,128.46,165.05,27.15,granite

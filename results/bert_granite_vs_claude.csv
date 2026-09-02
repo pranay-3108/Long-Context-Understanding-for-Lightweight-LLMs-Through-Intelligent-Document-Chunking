@@ -1,0 +1,56 @@
+question_id,category,answer_f1,model_words,gold_words
+1,Retrieval / factual,0.5714,8,20
+2,Retrieval / factual,0.4571,20,15
+3,Retrieval / factual,0.5185,19,35
+4,Retrieval / factual,0.4615,13,26
+5,Retrieval / factual,0.4444,17,19
+6,Retrieval / factual,0.5161,49,75
+7,Retrieval / factual,0.3101,34,95
+8,Retrieval / factual,0.3738,42,65
+9,Retrieval / factual,0.3826,32,83
+10,Retrieval / factual,0.1806,21,123
+11,Motivation / concept,0.2535,30,41
+12,Motivation / concept,0.281,32,89
+13,Motivation / concept,0.3423,31,80
+14,Motivation / concept,0.3368,33,62
+15,Motivation / concept,0.3175,63,63
+16,Method / architecture,0.4651,47,82
+17,Method / architecture,0.2735,23,94
+18,Method / architecture,0.5778,20,25
+19,Method / architecture,0.24,32,119
+20,Method / architecture,0.1613,22,104
+21,Method / architecture,0.1884,30,108
+22,Method / architecture,0.252,32,95
+23,Training / implementation,0.5,25,37
+24,Training / implementation,0.2414,14,44
+25,Training / implementation,0.2449,26,23
+26,Training / implementation,0.3662,27,45
+27,Numerical / tables,0.2581,28,97
+28,Numerical / tables,0.2687,25,42
+29,Numerical / tables,0.2258,35,92
+30,Numerical / tables,0.2632,22,55
+31,Numerical / tables,0.1282,27,53
+32,Numerical / tables,0.3784,31,82
+33,Numerical / tables,0.3265,30,74
+34,Experiment / ablation,0.2969,28,103
+35,Experiment / ablation,0.2645,30,93
+36,Experiment / ablation,0.1923,24,132
+37,Experiment / ablation,0.1727,26,113
+38,Experiment / ablation,0.2308,38,118
+39,Evidence / reasoning,0.2548,35,123
+40,Evidence / reasoning,0.1648,35,147
+41,Evidence / reasoning,0.2167,37,166
+42,Evidence / reasoning,0.0444,19,116
+43,Evidence / reasoning,0.1023,39,176
+44,Evidence / reasoning,0.1417,52,191
+45,Evidence / reasoning,0.1772,99,138
+46,Evidence / reasoning,0.0595,17,151
+47,Multi-hop / synthesis,0.2027,77,302
+48,Multi-hop / synthesis,0.1547,37,144
+49,Multi-hop / synthesis,0.1402,38,177
+50,Multi-hop / synthesis,0.1455,48,117
+51,Hallucination check,0.1538,50,41
+52,Hallucination check,0.1538,49,42
+53,Hallucination check,0.1584,35,66
+54,Hallucination check,0.1143,40,65
+55,Hallucination check,0.1678,41,102

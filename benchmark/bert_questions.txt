@@ -1,0 +1,110 @@
+Q01. What does the acronym "BERT" stand for?
+
+Q02. What are the number of layers, hidden size, number of attention heads, and total parameter count of BERT_BASE?
+
+Q03. What are the two unsupervised tasks used to pre-train BERT?
+
+Q04. What two text corpora were used for BERT's pre-training data, and roughly how large is each?
+
+Q05. According to a footnote in Section 3.1, what NSP accuracy does the final pre-trained model achieve?
+
+Q06. In this paper's terms, what is the "masked language model" (MLM) objective, and why do the authors say it is often called a Cloze task?
+
+Q07. What does "bidirectional" mean in the context of BERT's architecture, and how does this differ from the "unidirectional" models the authors contrast it with?
+
+Q08. What is the difference between the "feature-based" and "fine-tuning" strategies for applying pre-trained language representations, as the paper describes them?
+
+Q09. What is the purpose of the segment (A/B) embeddings in BERT's input representation, and how do they differ from the [SEP] token's role?
+
+Q10. What does the Next Sentence Prediction (NSP) task train the model to do, and what role does the vector C play in this task?
+
+Q11. According to the introduction, what is the "major limitation" of standard language models that motivates BERT's design?
+
+Q12. Why do the authors argue that unidirectionality is "sub-optimal" for sentence-level tasks and could be especially "harmful" when applying fine-tuning-based approaches to token-level tasks such as question answering?
+
+Q13. Why, according to Section 3.1, can't standard conditional language models simply be trained with bidirectional conditioning the way one might naively expect?
+
+Q14. What motivated the authors to introduce the Next Sentence Prediction task in addition to the masked language model?
+
+Q15. Why do the authors say it is "critical" to use a document-level corpus (like BooksCorpus) rather than a shuffled sentence-level corpus (like the Billion Word Benchmark) for pre-training?
+
+Q16. Describe exactly what happens when a token position is chosen for masking during MLM pre-training (the 80/10/10 procedure).
+
+Q17. Why does BERT not always replace a chosen token with the literal [MASK] symbol during pre-training?
+
+Q18. How is a given token's input representation constructed in BERT?
+
+Q19. How does BERT's fine-tuned SQuAD model compute the start and end positions of a predicted answer span?
+
+Q20. How does BERT adapt its SQuAD v1.1 span-prediction approach to handle SQuAD v2.0's unanswerable questions?
+
+Q21. How does BERT's fine-tuning setup for SWAG differ structurally from its setup for a single-sentence classification task like SST-2?
+
+Q22. How does BERT's self-attention mechanism let it unify, into a single stage, what earlier text-pair approaches did as two separate stages?
+
+Q23. What optimizer and learning rate schedule were used for BERT's pre-training?
+
+Q24. What sequence lengths were used during pre-training, and for what proportion of steps was each used?
+
+Q25. What activation function does BERT use in its feed-forward layers, and whose prior work does this choice follow?
+
+Q26. What batch size and number of pre-training steps did the authors use, and how many epochs over the pre-training corpus does this correspond to, according to the paper?
+
+Q27. The abstract states BERT achieves a "7.7% point absolute improvement" in GLUE score. Using Table 1's "Average" column, compute BERT_LARGE's Average minus OpenAI GPT's Average. Does this match 7.7? If not, what two other numbers elsewhere in the paper do match 7.7?
+
+Q28. Using Table 1, on which single GLUE task does BERT_BASE show the largest absolute point improvement over OpenAI GPT (on the Test set), and what is that point difference?
+
+Q29. The paper states its best single-model SQuAD 1.1 system beats "the top leaderboard system" by "+1.3 F1 as a single system." Using Table 2, compute BERT_LARGE (Sgl.+TriviaQA)'s Test F1 minus each of the two listed "Top Leaderboard Systems" Test F1 scores. Which comparison actually produces +1.3?
+
+Q30. The paper claims a "+5.1 F1 improvement" on SQuAD 2.0. Using Table 3, identify exactly which two systems' Test F1 scores are being compared, and show the calculation.
+
+Q31. Using Table 4, verify the paper's two stated SWAG improvement figures: that BERT_LARGE outperforms ESIM+ELMo by "+27.1%" and OpenAI GPT by "8.3%" on the Test set.
+
+Q32. Using Table 6, what is the difference in MNLI-m Dev accuracy between the smallest (#L=3) and largest (#L=24) BERT configurations tested, and how does masked-LM perplexity change between these same two configurations?
+
+Q33. Using Table 5, compute how many points of MRPC accuracy are lost going from "No NSP" to "LTR & No NSP," and how many points of SQuAD F1 are lost going from BERT_BASE (full model) to "LTR & No NSP." Which task loses more, and by how much more?
+
+Q34. What does the comparison between "No NSP" and "LTR & No NSP" in Table 5 specifically isolate and demonstrate?
+
+Q35. What was the purpose of adding a randomly initialized BiLSTM on top of the "LTR & No NSP" model, and what did the results show?
+
+Q36. What does the feature-based ablation on CoNLL-2003 NER (Table 7) demonstrate about where useful task-relevant information resides across BERT's layers?
+
+Q37. What does the masking-strategy ablation in Table 8 show about fine-tuning's robustness to different masking strategies, and where does that robustness break down?
+
+Q38. What conclusion do the authors draw from Table 6 about model size and performance on small datasets like MRPC, and what makes them describe this as somewhat surprising?
+
+Q39. The introduction argues unidirectionality is especially harmful for token-level tasks like question answering. Which later ablation result provides direct experimental evidence for this specific claim, and what does that evidence show quantitatively?
+
+Q40. Section 3 states BERT has a "distinctive feature" of unified architecture with minimal difference between pre-trained and downstream architectures. How does Section 3.2's description of fine-tuning concretely realize this claim?
+
+Q41. Section 5.2 claims this is "the first work to demonstrate convincingly" that scaling to extreme model sizes improves performance on very small-scale tasks, provided the model is sufficiently pre-trained. What earlier findings, cited in that same section, does this claim implicitly contrast with, and why do the authors think their result differs?
+
+Q42. Section 3.1 describes the 80/10/10 masking design in the abstract, general case. How does the Appendix's worked example make this design concrete, and what specific token does it use to illustrate the "kept unchanged" (10%) case?
+
+Q43. The abstract claims BERT achieves its results "without substantial task-specific architecture modifications." Using the specific mechanisms described for SQuAD (Section 4.2) and SWAG (Section 4.4), explain concretely how few new parameters are actually introduced in each case, and how this supports the abstract's claim.
+
+Q44. The paper argues its improvements over GPT come mainly from bidirectionality and the two pre-training tasks, not from other training differences (data size, batch size, fine-tuning learning-rate schedule). What evidence does the paper offer for this claim, and what stronger claim would NOT be justified given how that evidence was constructed?
+
+Q45. Does the paper's SQuAD v1.1 result establish that BERT does not benefit at all from external question-answering data? Explain using the specific evidence given.
+
+Q46. What claim does the masking-strategy ablation (Table 8, Section C.2) support about fine-tuning's robustness, and what specific caveat in the same section limits how far that claim can be generalized?
+
+Q47. Reconstruct the paper's overall logical chain, from the problem identified in the introduction to the ablation evidence in Section 5, in the form: problem → motivation → design → method → experiment → evidence → conclusion.
+
+Q48. If the Next Sentence Prediction task were removed entirely from pre-training, what does the paper's own evidence suggest would happen to performance on MNLI and SQuAD 1.1 — and would this effect be the same across all tasks?
+
+Q49. Sections 5.1 (pre-training task ablation) and 5.2 (model size ablation) report results on overlapping tasks (MNLI, MRPC). How should these two experiments be interpreted together, rather than reading either in isolation, to understand what drives BERT's overall performance?
+
+Q50. According to Section 5.3, what specific computational/practical advantage would be lost if the authors always used the fine-tuning approach and never used the feature-based approach, especially when running many downstream experiments?
+
+Q51. What is the exact carbon emissions or energy cost of pre-training BERT_LARGE?
+
+Q52. How does BERT perform on non-English languages or multilingual benchmarks?
+
+Q53. What specific numeric value of the threshold τ was selected for SQuAD v2.0's no-answer decision, and how sensitive was performance to that specific value?
+
+Q54. How does BERT's inference (prediction) latency at deployment time compare to ELMo's?
+
+Q55. What GLUE Average score would BERT_BASE have achieved if it had been pre-trained with OpenAI GPT's smaller batch size (32,000 words) instead of BERT's own 128,000-word batch size?
+
