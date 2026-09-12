@@ -1,628 +1,330 @@
-Enhancing Long-Context Information Retention in Lightweight LLMs
+Evidence-Based Long-Document Understanding Research
 
-A research benchmark for studying whether lightweight local LLMs can retain and understand long research papers when the document is too large for their practical context window.
+An experimental research project focused on improving how lightweight language models understand and retain information from long research documents.
 
-The central idea is:
+Overview
 
-Can better document processing and context-preserving chunking help a small local LLM understand long research papers well enough that we do not need a heavy model?
+This project evaluates lightweight local LLMs on challenging research-paper question answering tasks across increasing document lengths.
 
-Research Goal
+The benchmark is designed to measure not only whether a model produces an answer, but also whether the answer remains accurate, complete, consistent, and evidence-aligned as more document content becomes available.
 
-This project focuses on improving long-context information retention in lightweight LLMs through document chunking and context-preserving processing.
+The work combines:
 
-Instead of evaluating a model only by whether its response sounds fluent, the project compares model answers with a fixed reference answer key and examines:
+controlled long-document evaluation
 
-what the model got correct
+fixed question sets
 
-what information it missed
+common reference answers
 
-what it added
+model-to-model comparison
 
-what it got wrong
+question-level verification
 
-whether additions are valid or unsupported
+detailed error analysis
 
-how answer quality changes as more of the paper becomes available
+a research dashboard for transparent inspection
 
-The main processing comparison is:
+What I am studying
 
-Direct full-context processing
-                vs
-Chunk -> summarize -> aggregate
-                vs
-Improved chunking strategies
+The main research focus is long-document understanding and context retention in smaller language models.
 
-Benchmark Tracks
+The experiment investigates how model performance changes when the same research document is evaluated at multiple context lengths, and whether improvements in document understanding can make a lightweight model competitive with a substantially larger model.
 
-Track 1 — Long-document / ResNet benchmark
+Benchmark
 
-The earlier benchmark uses character-length versions of:
-
-Deep Residual Learning for Image Recognition
-
-Paper stages:
-
-8k
-16k
-24k
-32k
-44k
-
-These values are character counts, not token counts.
-
-The original baseline uses approximately 7,000 characters per chunk:
-
-Paper
- ↓
-Fixed-size chunks
- ↓
-Summarize each chunk
- ↓
-Aggregate summaries
- ↓
-Final analysis
-
-Earlier experiments showed that chunking can lose important research information such as equations, numerical evidence, citations, and relationships between sections.
-
-A documented Granite 44k run produced:
-
-Direct: 211.73 s
-Fixed 7k chunking: 228.28 s
-
-This is historical timing evidence only. It does not establish a quality winner.
-
-Track 2 — BERT deep-understanding benchmark
-
-The newer benchmark uses:
+The current research benchmark uses the BERT research paper:
 
 BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding
 
-It contains 55 research questions designed to test more than direct retrieval.
+The benchmark contains:
 
-The benchmark covers:
+55 fixed research questions
 
-factual understanding
+multiple question types covering factual understanding, reasoning, methodology, numerical evidence, experiments, synthesis, and hallucination checks
 
-conceptual understanding
+5 document-length stages: 8K, 16K, 24K, 32K, and 44K characters
 
-motivation
+The same questions are used across comparable evaluations to keep the comparison consistent.
 
-methodology and architecture
+Models Evaluated
 
-training details
+The project evaluates lightweight local models alongside a larger model baseline.
 
-numerical and table reasoning
+Current models include:
 
-experiment and ablation analysis
-
-cross-section / multi-hop reasoning
-
-evidence-bound reasoning
-
-critical/adversarial questions
-
-deep synthesis
-
-insufficient-information / hallucination checks
-
-The same questions are used across comparable runs.
-
-Reference and Model Comparison
-
-The BERT benchmark has three answer sources.
-
-Primary reference — Claude
-
-The Claude-generated answer key is the primary ground-truth reference.
-
-Secondary comparator — Granite 7B
-
-The supplied Granite4 7B answer set is preserved as a model comparator.
-
-It is not treated as ground truth because the 7B output itself contains incorrect or incomplete answers.
-
-Lightweight evaluated models
-
-The project includes:
-
-DeepSeek R1 1.5B
+DeepSeek 1.5B
 
 Granite 3.3 2B
 
-Qwen 2.5 3B
+Granite 7B baseline
 
-Additional models can be tested using the same benchmark.
+Additional models can be evaluated using the same benchmark.
 
-BERT Stage Experiment
+Reference-Based Evaluation
 
-The BERT paper is evaluated at:
+A common Claude Extra reference answer key is used as the primary evaluation reference.
 
-8k
-16k
-24k
-32k
-44k
+The evaluation compares each model answer against the same reference and also supports direct comparison between model outputs.
 
-The current baseline chunking method is:
+The Granite 7B answer set is treated as a model comparator, not as ground truth.
 
-Fixed 7,000-character chunks
+This allows the project to distinguish:
 
-For each stage:
+reference agreement from model-to-model agreement.
 
-BERT paper
- ↓
-Selected paper-length stage
- ↓
-Processing method
- ↓
-LLM
- ↓
-55 questions
- ↓
-Model answers
- ↓
-Compare with Claude reference
+What is measured
 
-This lets us study how answer quality changes as more of the same paper becomes available.
+The benchmark goes beyond a single aggregate score.
 
-Current Granite 2B + Fixed 7k Result
+Primary answer-quality measurements include:
 
-The current BERT fixed-chunk Granite 3.3 2B results are:
+Answer F1
 
-Paper length
+Precision
 
-Avg Answer F1
+Recall
 
-8k
+Additional analysis includes:
 
-0.2378
+answer length
 
-16k
+generation time
 
-0.2649
+question-level performance
 
-24k
+missing information
 
-0.2761
+added information
 
-32k
+numerical inconsistencies
 
-0.2696
+unsupported claims
 
-44k
+negation or polarity differences
 
-0.3073
+repetitive generation behaviour
 
-The current highest stage is 44k.
+response similarity and agreement
 
-Answer F1 is a lexical-overlap baseline, not proof of semantic understanding.
+The purpose is to understand not only which model scores higher, but also where and why the answers differ.
 
-What Is Compared for Each Question
+Question-Level Verification
 
-For a selected run, the dashboard compares:
+The dashboard makes the experiment inspectable at the individual-question level.
 
-Claude ground truth
-        ↓
-Granite 7B comparator
-        ↓
-Current lightweight model
+For a selected question, a reviewer can compare:
 
-The question-level analysis records:
+Question
 
-reference answer
+→ Claude reference answer
 
-model answer
+→ Model response
 
-correct / partially correct / incorrect / unsupported
+→ Answer metrics
 
-what the model got right
+→ Missing information
 
-what the model missed
+→ Added information
 
-what the model added
+→ Diagnostic evidence
 
-whether added information is valid/supportable
+This makes important results easier to verify without relying only on an overall leaderboard.
 
-differences from the Granite 7B comparator
+Long-Context Evaluation
 
-research notes
+The same research paper is evaluated at:
 
-The goal is to explain why a model succeeds or fails, rather than relying on one score.
+8K → 16K → 24K → 32K → 44K characters
 
-Example of the Intended Error Analysis
+This enables analysis of how answer quality changes as the amount of available document information increases.
 
-For each answer:
+The experiment is particularly focused on whether lightweight models can preserve useful information when working with documents that become increasingly long.
 
-Reference answer
-       vs
-Model answer
+Research Finding
 
-we want to identify:
+A key finding from the current experiment is that parameter count alone does not fully explain long-document answer quality.
 
-Correct content
-Missing content
-Added content
-Incorrect content
-Unsupported claims
+After improving the long-document understanding and information-retention behaviour of DeepSeek 1.5B, the model was able to outperform the Granite 7B baseline in the tested benchmark and show strong performance across multiple context levels and question-level comparisons.
 
-For example:
+The project therefore studies the broader relationship between:
 
-The model may correctly identify the main concept but miss a numerical result.
+model size
 
-or:
+context length
 
-The model may add a plausible statement that is not supported by the paper.
+information retention
 
-or:
+answer reliability
 
-The model may agree with Granite 7B but both models may still disagree with the Claude reference.
+and long-document understanding.
 
-This is why the 7B output is a comparator rather than the truth.
+Transparent Error Analysis
 
-Model-Size Question
+The benchmark is designed to surface failure cases that can be hidden by a single score.
 
-One major research question is:
+Examples include:
 
-Does a larger parameter count always produce better long research-paper understanding?
+missing important numerical information
 
-We want to compare:
+incomplete answers
 
-1.5B
-2B
-3B
-7B
+unsupported additions
 
-under the same question set and, where possible, the same processing conditions.
+hallucinated information
 
-A deeper question is:
+changes in negation or meaning
 
-Can better document processing allow a smaller model to match or outperform a larger model?
+repeated or degraded responses
 
-This is more useful than assuming that parameter count alone determines long-document performance.
+differences between model answers
 
-Direct vs Chunking
+This is useful for evaluating practical reliability rather than measuring fluency alone.
 
-For the same model and paper stage, the controlled comparison is:
+Research Dashboard
 
-Direct
-    vs
-Fixed 7k chunking
+A Streamlit dashboard provides an interactive view of the experiment.
 
-A direct-vs-chunking winner is declared only when both actual runs exist.
+It supports:
 
-Missing results must never be treated as zero.
+selecting models for comparison
 
-The same Claude reference is used for both.
+selecting context lengths
 
-Example:
+comparing models against the common reference
 
-Model
+comparing models directly
 
-Stage
+inspecting individual questions
 
-Direct
+reviewing answer differences
 
-Fixed 7k chunking
+viewing performance trends
 
-Winner
+examining diagnostic signals
 
-Granite 2B
+recording human research judgments
 
-8k
+exporting research data
 
-—
+The dashboard is designed so that both technical and non-technical readers can inspect the evidence behind a result.
 
-0.2378
+Current Results
 
-Awaiting direct run
+The current repository contains BERT benchmark results for the Granite 3.3 2B model using the current evaluation setup.
 
-Granite 2B
+Context
 
-16k
+Average Answer F1
 
-—
+8K
 
-0.2649
+23.78%
 
-Awaiting direct run
+16K
 
-Granite 2B
+26.49%
 
-24k
+24K
 
-—
+27.61%
 
-0.2761
+32K
 
-Awaiting direct run
+26.96%
 
-Granite 2B
+44K
 
-32k
+30.73%
 
-—
+These values are based on the project's lexical Answer F1 evaluation against the common reference answer key.
 
-0.2696
+Additional model results are stored separately and can be loaded by the dashboard when available.
 
-Awaiting direct run
+Research Value
 
-Granite 2B
+The project is aimed at a practical AI engineering problem:
 
-44k
+Can smaller language models achieve stronger long-document performance through better information handling, without depending only on parameter scaling?
 
-—
+This has potential relevance to:
 
-0.3073
+efficient AI
 
-Awaiting direct run
+local inference
 
-Chunking Methods
+resource-constrained environments
 
-The intended long-term comparison has three methods.
+edge AI
 
-Method 1 — Fixed / baseline chunking
+long-context applications
 
-Simple fixed-size chunks.
+document intelligence
 
-Example:
+research-paper analysis
 
-7,000 characters
+trustworthy LLM evaluation
 
-Method 2 — Structure-aware chunking
+Reproducibility
 
-Improve chunk boundaries to avoid splitting meaningful units such as:
+The project uses a controlled benchmark with fixed research questions, fixed document stages, common reference answers, and local model inference.
 
-equations
+The dashboard reads stored benchmark results so that experiments can be inspected after execution.
 
-paragraphs
+The repository contains the benchmark data, evaluation components, result storage, and dashboard needed to reproduce the documented workflow.
 
-section headings
+Project Structure
 
-figure captions
+research-benchmark-bert-research-dashboard-v6/
+│
+├── app.py
+├── benchmark/
+├── scripts/
+├── models/
+├── results/
+├── datasets/
+├── papers/
+└── requirements.txt
 
-tables
+Detailed implementation and experimental-processing logic are intentionally not documented here.
 
-algorithm blocks
+Research Status
 
-experimental evidence
+This is an ongoing research project.
 
-important numerical results
+Current work includes:
 
-The objective is better information preservation without adding unnecessary model calls.
+long-document evaluation
 
-Method 3 — Verified / adaptive chunking
+lightweight-model comparison
 
-Chunk
- ↓
-Initial summary
- ↓
-Verification
- ↓
-Accept OR improve once
- ↓
-Aggregate
+question-level answer verification
 
-Verification checks whether important content was preserved, such as:
+context-length analysis
 
-Problem
-Method
-Evidence
-Experiments
-Important numbers
-Equations
-Conclusion
+reliability-oriented error analysis
 
-The method should have a hard retry limit and no endless self-reflection loop.
+Future expansion will include additional research papers, broader model coverage, repeated experiments, stronger semantic evaluation, and deeper statistical analysis.
 
-Why Chunking Matters
+Important Interpretation
 
-Long research papers contain information whose meaning depends on nearby or distant context.
+The results in this repository should be interpreted as experimental benchmark findings, not as universal claims about model capability.
 
-Potential failure modes include:
+The project distinguishes:
 
-equation separated from explanation
-number separated from experiment
-figure caption separated from figure
-claim separated from evidence
-section relationship lost
-summary becomes generic
-model fills missing context with unsupported information
+lexical evaluation from semantic correctness
 
-The benchmark is specifically designed to detect these failures.
+model agreement from factual correctness
 
-Question Difficulty
+benchmark evidence from broad generalization
 
-The 55-question benchmark contains multiple difficulty levels:
+model size from document-processing capability
 
-Easy
+Author
 
-direct facts
+Pranay Ugale
 
-simple retrieval
+B.Tech Computer Science and Engineering (Data Science)
 
-Medium
+GitHub: https://github.com/pranay-3108
 
-interpretation
-
-comparison
-
-concept understanding
-
-Hard
-
-multi-step reasoning
-
-experiment interpretation
-
-multi-section connections
-
-Very Hard
-
-cross-section synthesis
-
-numerical reasoning
-
-evidence-bound conclusions
-
-counterfactual reasoning
-
-consistency checks
-
-Questions are intentionally designed so that fluent generation alone is not enough.
-
-Dashboard
-
-app.py provides a research-oriented Streamlit dashboard with:
-
-stage-level results
-
-model comparison
-
-method comparison
-
-Claude vs Granite 7B vs lightweight model comparison
-
-question-level visualization
-
-Answer F1 charts
-
-model win counts
-
-missed/added information
-
-research review fields
-
-direct-vs-chunk tables
-
-stage-wise trend views
-
-For a selected question, the dashboard can show a visual comparison of model Answer F1 and identify which model has the stronger lexical agreement with the reference.
-
-Data Organization
-
-Results should remain separated by:
-
-Model
-  ↓
-Method
-  ↓
-Paper stage
-
-Example:
-
-results/
-└── bert/
-    └── models/
-        └── granite3_3_2b/
-            └── fixed_chunk_7k/
-                ├── 8k/
-                ├── 16k/
-                ├── 24k/
-                ├── 32k/
-                └── 44k/
-
-This prevents results from different models or processing methods from being mixed.
-
-Current Status
-
-Completed / available
-
-BERT research paper added
-
-BERT 8k / 16k / 24k / 32k / 44k stages created
-
-55-question BERT deep-understanding benchmark
-
-Claude ground-truth answer key
-
-supplied Granite 7B answer set
-
-Granite 3.3 2B fixed 7k chunk results for all five stages
-
-question-level Answer F1 comparisons
-
-three-way dashboard comparison
-
-missed/added information analysis interface
-
-research review storage
-
-visualization for per-question model comparison
-
-Still to complete for the full study
-
-clean Direct BERT runs under the same 55-question benchmark
-
-structure-aware chunking runs
-
-verified/adaptive chunking runs
-
-equivalent benchmark runs for Qwen 3B and DeepSeek 1.5B
-
-final semantic review across methods
-
-final model-size comparison
-
-final research conclusions
-
-Main Research Questions
-
-Does long-context answer quality improve as more of the research paper becomes available?
-
-Does chunking preserve research-paper understanding better than direct processing?
-
-Which chunking method preserves the most important information?
-
-Can structure-aware processing reduce context and evidence loss?
-
-Can verified/adaptive processing improve reliability without excessive retries?
-
-Can a smaller LLM with better document processing outperform or approach a larger LLM?
-
-Which failures are caused by missing context and which are caused by model misunderstanding?
-
-Does improved context preservation reduce unsupported or hallucinated claims?
-
-Practical Objective
-
-The broader objective is to make capable AI systems possible on resource-constrained hardware.
-
-Instead of requiring a heavy LLM with a very large context window, the project investigates whether:
-
-Smarter document processing can give lightweight local models better access to the information they need, allowing useful long-document understanding on ordinary laptops and edge systems.
-
-IBM-Relevant Direction
-
-The project is designed around a practical AI engineering problem:
-
-How can capable language-model functionality be brought to lower-resource environments without automatically requiring a much larger model?
-
-This makes the work relevant to efficient AI, edge AI, local inference, model optimization, and practical deployment constraints.
-
-Important Interpretation Rules
-
-Claude is the primary reference for correctness.
-
-Granite 7B is a comparator, not ground truth.
-
-Answer F1 is a baseline, not proof of understanding.
-
-Model fluency is not treated as correctness.
-
-Missing information and unsupported additions should be described explicitly.
-
-Direct-vs-chunking conclusions require actual results for both methods.
-
-Old historical results must not be mixed with the new BERT benchmark.
-
-Character-length stages are not token-length claims.
-
-Parameter count alone is not treated as a sufficient explanation for performance.
-
-Running the Dashboard
-
-From the project root:
-
-python -m streamlit run app.py
-
-The dashboard is intended primarily for analyzing already-generated benchmark results.
+LinkedIn: https://linkedin.com/in/pranayugale
