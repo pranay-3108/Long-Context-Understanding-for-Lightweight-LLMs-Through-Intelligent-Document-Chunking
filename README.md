@@ -494,7 +494,57 @@ For a fully repeatable future release, publish or record:
 | DeepSeek runaway output | 24,196 tokens; F1 = 0.002 |
 
 ---
+## Run the Project
 
+### Prerequisites
+- Python 3.10 or later
+- (Optional, only to re-run the benchmark) [Ollama](https://ollama.com) installed and running
+
+### Setup and launch the dashboard (Windows PowerShell)
+
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python -m streamlit run app.py
+```
+
+### Setup and launch the dashboard (macOS / Linux)
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m streamlit run app.py
+```
+
+Then open http://localhost:8501 in your browser.
+
+> **Windows tip:** extract or clone the project to a short path such as `C:\bench`.
+> Very long folder paths can exceed Windows' 260-character limit and cause files
+> under `results/` to be skipped, which makes the dashboard show
+> "No BERT result.json files found".
+
+### Re-run the benchmark (optional)
+
+```bash
+ollama pull granite3.3:2b
+python scripts/run_bert_matrix.py --model granite3.3:2b --label granite3_3_2b --mode fixed --sizes 8
+```
+
+The scripts read the paper text from `papers/bert/`, so copy the `bert/` folder to `papers/bert/` first:
+
+```bash
+mkdir papers
+cp -r bert papers/bert        # Windows: xcopy bert papers\bert /E /I
+```
+
+### Run tests
+
+```bash
+python -m pip install pytest
+python -m pytest tests/
+```
 ## Author
 
 **Pranay Ugale**  
